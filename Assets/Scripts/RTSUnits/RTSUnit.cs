@@ -107,7 +107,13 @@ public class RTSUnit : MonoBehaviour
     /// <param name="enemy">选定的敌人单位</param>
     protected void Attack(RTSUnit enemy)
     {
-        Debug.Log($"{name} 攻击 {enemy.name}");
+        if(weapon != null){
+            Debug.Log($"{name} 使用 {weapon.name} 攻击了 {enemy.name}");
+            weapon.Attack(enemy);
+        }
+        else{
+            Debug.Log($"{name} 没有武器，无法攻击！");
+        }
         // TODO: 攻击实现
     }
     /// <summary>
