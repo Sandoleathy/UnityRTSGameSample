@@ -20,8 +20,10 @@ public class RTSUnit : MonoBehaviour
     [Header("当前属性")]
     public float currentMoveSpeed = 0f; // 当前移动速度（可用于加速/减速）
     public float HP = 0f;
+    public bool isCeaseFire = true;     // 是否停止开火
+    public bool isAlive = true;
     protected Vector3 moveTargetPosition;   // 移动目标位置
-    protected bool isMoving = false;
+    public bool isMoving = false;
 
     protected IMoveAlgorithm moveAlgorithm;
     protected IAlertAlgorithm alertAlgorithm;
@@ -29,6 +31,18 @@ public class RTSUnit : MonoBehaviour
     public RTSUnit currentTargetEnemy;
 
     private OutlineObject outline;
+
+//----------- 视觉效果相关（暂时） --------
+    private Renderer unitRenderer;
+    private Color originalColor;
+
+    private void Awake() {
+        unitRenderer = GetComponentInChildren<Renderer>();
+        if (unitRenderer != null)
+            originalColor = unitRenderer.material.color;
+    }
+
+//--------------------------------------
 
     void Start()
     {
@@ -79,8 +93,9 @@ public class RTSUnit : MonoBehaviour
     /// </summary>
     public void MoveTo(Vector3 destination, float speed = -1f)
     {
-        moveTargetPosition = destination;
+        Debug.Log("Move to");
         isMoving = true;
+        moveTargetPosition = destination;
         currentMoveSpeed = (speed > 0) ? Mathf.Min(speed, config.maxMoveSpeed) : config.maxMoveSpeed;
     }
 
@@ -98,6 +113,8 @@ public class RTSUnit : MonoBehaviour
     /// </summary>
     public void OnDead()
     {
+        isAlive = false;
+        gameObject.layer = LayerMask.NameToLayer("DeadLayer");
         //TODO: 死亡效果
         Debug.Log($"{name} HP耗尽, 死亡了!");
         Destroy(gameObject, 2f);
@@ -106,23 +123,23 @@ public class RTSUnit : MonoBehaviour
     /// 攻击敌人
     /// </summary>
     /// <param name="enemy">选定的敌人单位</param>
-    protected void Attack(RTSUnit enemy)
+    protected void AttemptToAttack(RTSUnit enemy)
     {
         if(weapon != null){
-            Debug.Log($"{name} 使用 {weapon.name} 攻击了 {enemy.name}");
-            weapon.Attack(enemy);
+            if(weapon.Attack(enemy)) Debug.Log($"{config.name} 使用 {weapon.name} 对 {enemy.config.name} 发起攻击！");
         }
         else{
-            Debug.Log($"{name} 没有武器，无法攻击！");
+            Debug.Log($"{config.name} 没有武器，无法攻击！");
         }
         // TODO: 攻击实现
     }
     /// <summary>
     /// 受到伤害
     /// </Summary>
-    public void takeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         HP -= damage;
+        StartCoroutine(HitEffect());    // 临时受击特效
         Debug.Log($"{name} 受到 {damage} 点伤害, 当前HP: {HP}");
         if (HP <= 0)
         {
@@ -130,16 +147,30 @@ public class RTSUnit : MonoBehaviour
         }
     }
 
+    private IEnumerator HitEffect()
+    {
+        if (unitRenderer != null)
+        {
+            unitRenderer.material.color = Color.red; // 变红
+            yield return new WaitForSeconds(0.2f);  // 持续0.2秒
+            unitRenderer.material.color = originalColor; // 恢复原色
+        }
+    }
+
     protected void Update()
     {
+        if(!isAlive) return; //死了就不要更新了
+        RTSUnit enemy = null;
         // 检测敌人
-        RTSUnit enemy = alertAlgorithm?.DetectEnemy(this);
+        if(!isCeaseFire){
+            enemy = alertAlgorithm?.DetectEnemy(this);
+        }
         //如果发现敌人并且单位是静止的，就可以攻击
         //如果允许移动攻击（canAttackWhileMove == true），那就算在移动也可以攻击。
         if (enemy != null && (!isMoving || config.canAttackWhileMove))
         {
             currentTargetEnemy = enemy;
-            Attack(currentTargetEnemy);
+            AttemptToAttack(currentTargetEnemy);
             return;
         }
         if (isMoving && moveAlgorithm != null)
@@ -160,11 +191,11 @@ public class RTSUnit : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(delta, Vector3.up);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
             }
-
-            if (Vector3.Distance(transform.position, moveTargetPosition) < 0.1f)
-            {
-                StopMove();
-            }
+            // if (Vector3.Distance(transform.position, moveTargetPosition) < 0.5f)
+            // {
+            //     Debug.Log($"{name} 停止移动");
+            //     StopMove();
+            // }
         }
         if (HP <= 0)
         {
