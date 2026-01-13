@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "RTSTest.sln"
+    "dotnet.defaultSolution": "RTSTest.sln",
+    "FSharp.suggestGitignore": false
 }
