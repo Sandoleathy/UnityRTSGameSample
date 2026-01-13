@@ -1,22 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public abstract class RTSUnit : MonoBehaviour
+[RequireComponent(typeof(OutlineObject))]
+public class RTSUnit : MonoBehaviour
 {
-    [Header("单位基础属性")]
-    public string unitName;
-    public float HP;
-    [Header("能否在移动中攻击")]
-    public bool canAttackWhenMove;
+    [Header("单位配置")]
+    public RTSUnitConfig config;
+    [Header("武器")]    
+    /// <summary>
+    /// 武器
+    /// </summary>
+    public Weapon weapon;
+    
     [Header("阵营")]
     public int camp;
-    public float alertRange = 10f;
 
-    [Header("移动相关参数")]
-    public float maxMoveSpeed = 5f;     // 最大移动速度
+    [Header("当前属性")]
     public float currentMoveSpeed = 0f; // 当前移动速度（可用于加速/减速）
-
+    public float HP = 0f;
     protected Vector3 moveTargetPosition;   // 移动目标位置
     protected bool isMoving = false;
 
@@ -24,6 +27,17 @@ public abstract class RTSUnit : MonoBehaviour
     protected IAlertAlgorithm alertAlgorithm;
     [Header("锁定的敌人单位")]
     public RTSUnit currentTargetEnemy;
+
+    private OutlineObject outline;
+
+    void Start()
+    {
+        SetMoveAlgorithm(new NavMeshMoveAlgorithm(GetComponent<NavMeshAgent>()));
+        SetAlertAlgorithm(new RangeAlertAlgorithm());
+        if(HP == 0){
+            HP = config.maxHP;
+        }  
+    }
 
     // ====== 基础方法 ======
 
@@ -39,30 +53,41 @@ public abstract class RTSUnit : MonoBehaviour
     /// <summary>
     /// 单位被鼠标点击选中
     /// </summary>
-    public virtual void OnSelected()
+    public void OnSelected()
     {
         Debug.Log($"{name} 被选中！");
+
+        if (outline == null)
+        {
+            outline = gameObject.AddComponent<OutlineObject>();
+        }
+
+        outline.enabled = true;
     }
 
-    public virtual void DeSelected()
+    public void DeSelected()
     {
         Debug.Log($"{name} 取消选中");
+        if (outline != null)
+        {
+            outline.enabled = false;
+        }
     }
 
     /// <summary>
     /// 设置移动目标点
     /// </summary>
-    public virtual void MoveTo(Vector3 destination, float speed = -1f)
+    public void MoveTo(Vector3 destination, float speed = -1f)
     {
         moveTargetPosition = destination;
         isMoving = true;
-        currentMoveSpeed = (speed > 0) ? Mathf.Min(speed, maxMoveSpeed) : maxMoveSpeed;
+        currentMoveSpeed = (speed > 0) ? Mathf.Min(speed, config.maxMoveSpeed) : config.maxMoveSpeed;
     }
 
     /// <summary>
     /// 停止移动
     /// </summary>
-    public virtual void StopMove()
+    public void StopMove()
     {
         isMoving = false;
         currentMoveSpeed = 0f;
@@ -71,7 +96,7 @@ public abstract class RTSUnit : MonoBehaviour
     /// <summary>
     /// 死亡时触发
     /// </summary>
-    public virtual void onDead()
+    public void OnDead()
     {
         Debug.Log($"{name} HP耗尽, 死亡了!");
         Destroy(this, 2f);
@@ -80,19 +105,31 @@ public abstract class RTSUnit : MonoBehaviour
     /// 攻击敌人
     /// </summary>
     /// <param name="enemy">选定的敌人单位</param>
-    protected virtual void Attack(RTSUnit enemy)
+    protected void Attack(RTSUnit enemy)
     {
         Debug.Log($"{name} 攻击 {enemy.name}");
         // TODO: 攻击实现
     }
+    /// <summary>
+    /// 受到伤害
+    /// </Summary>
+    public void takeDamage(float damage)
+    {
+        HP -= damage;
+        Debug.Log($"{name} 受到 {damage} 点伤害, 当前HP: {HP}");
+        if (HP <= 0)
+        {
+            OnDead();
+        }
+    }
 
-    protected virtual void Update()
+    protected void Update()
     {
         // 检测敌人
         RTSUnit enemy = alertAlgorithm?.DetectEnemy(this);
         //如果发现敌人并且单位是静止的，就可以攻击
         //如果允许移动攻击（canAttackWhileMove == true），那就算在移动也可以攻击。
-        if (enemy != null && !isMoving || canAttackWhenMove)
+        if (enemy != null && (!isMoving || config.canAttackWhileMove))
         {
             currentTargetEnemy = enemy;
             Attack(currentTargetEnemy);
@@ -124,7 +161,7 @@ public abstract class RTSUnit : MonoBehaviour
         }
         if (HP <= 0)
         {
-            onDead();
+            OnDead();
         }
     }
 
