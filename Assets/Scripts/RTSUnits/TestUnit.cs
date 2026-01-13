@@ -1,34 +1,34 @@
-using UnityEngine;
-using UnityEngine.AI;
+// using UnityEngine;
+// using UnityEngine.AI;
 
-[RequireComponent(typeof(OutlineObject))]
-public class TestUnit : RTSUnit
-{
-    private OutlineObject outline;
-    void Start()
-    {
-        SetMoveAlgorithm(new NavMeshMoveAlgorithm(GetComponent<NavMeshAgent>()));
-        SetAlertAlgorithm(new RangeAlertAlgorithm());
-    }
+// [RequireComponent(typeof(OutlineObject))]
+// public class TestUnit : RTSUnit
+// {
+//     private OutlineObject outline;
+//     void Start()
+//     {
+//         SetMoveAlgorithm(new NavMeshMoveAlgorithm(GetComponent<NavMeshAgent>()));
+//         SetAlertAlgorithm(new RangeAlertAlgorithm());
+//     }
 
-    public override void OnSelected()
-    {
-        base.OnSelected();
+//     public override void OnSelected()
+//     {
+//         base.OnSelected();
 
-        if (outline == null)
-        {
-            outline = gameObject.AddComponent<OutlineObject>();
-        }
+//         if (outline == null)
+//         {
+//             outline = gameObject.AddComponent<OutlineObject>();
+//         }
 
-        outline.enabled = true;
-    }
+//         outline.enabled = true;
+//     }
 
-    public override void DeSelected()
-    {
-        base.DeSelected();
-        if (outline != null)
-        {
-            outline.enabled = false;
-        }
-    }
-}
+//     public override void DeSelected()
+//     {
+//         base.DeSelected();
+//         if (outline != null)
+//         {
+//             outline.enabled = false;
+//         }
+//     }
+// }
