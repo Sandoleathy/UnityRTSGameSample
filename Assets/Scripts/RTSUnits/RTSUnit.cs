@@ -98,8 +98,9 @@ public class RTSUnit : MonoBehaviour
     /// </summary>
     public void OnDead()
     {
+        //TODO: 死亡效果
         Debug.Log($"{name} HP耗尽, 死亡了!");
-        Destroy(this, 2f);
+        Destroy(gameObject, 2f);
     }
     /// <summary>
     /// 攻击敌人
