@@ -8,7 +8,7 @@ public class RangeAlertAlgorithm : IAlertAlgorithm
         foreach (var hit in hits)
         {
             RTSUnit other = hit.GetComponent<RTSUnit>();
-            if (other != null && other.camp != self.camp)
+            if (other != null && other.camp != self.camp && other.isAlive)
             {
                 return other; // 找到第一个敌人就返回
             }

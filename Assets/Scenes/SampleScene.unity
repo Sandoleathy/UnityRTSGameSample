@@ -487,6 +487,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1378347245 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: db6a04024e9d9f642b1e3d0e3821b9d2, type: 3}
+  m_PrefabInstance: {fileID: 1583248378}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1378347246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378347245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5347828cab520f14f903ddcd447c1110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponConfig: {fileID: 11400000, guid: 43aaa77fee9011045a072ee5dc975d16, type: 2}
+  isCoolingDown: 0
+  currentCooldownTime: 0
 --- !u!1 &1410282458
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,9 +519,9 @@ GameObject:
   - component: {fileID: 1410282464}
   - component: {fileID: 1410282463}
   - component: {fileID: 1410282462}
-  - component: {fileID: 1410282461}
   - component: {fileID: 1410282460}
   - component: {fileID: 1410282459}
+  - component: {fileID: 1410282466}
   m_Layer: 7
   m_Name: TestUnit 2
   m_TagString: RTSControlableUnit
@@ -543,26 +563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c67aae641e19e84e88b9b290cedd1d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1410282461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410282458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39ed42fa98bbae84897af2831c552c91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitName: TestUnit
-  HP: 100
-  canAttackWhenMove: 0
-  camp: 2
-  alertRange: 10
-  maxMoveSpeed: 5
-  currentMoveSpeed: 0
-  currentTargetEnemy: {fileID: 0}
 --- !u!65 &1410282462
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -649,6 +649,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1410282466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410282458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72fc4b6d97122442898bdc28fb4f55f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: 280b66e9f1ccac74688db9175d20c179, type: 2}
+  weapon: {fileID: 0}
+  camp: 1
+  currentMoveSpeed: 0
+  HP: 0
+  isCeaseFire: 1
+  isAlive: 1
+  isMoving: 0
+  currentTargetEnemy: {fileID: 0}
 --- !u!1 &1519036370
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,9 +682,9 @@ GameObject:
   - component: {fileID: 1519036373}
   - component: {fileID: 1519036372}
   - component: {fileID: 1519036371}
-  - component: {fileID: 1519036375}
   - component: {fileID: 1519036376}
   - component: {fileID: 1519036377}
+  - component: {fileID: 1519036378}
   m_Layer: 7
   m_Name: TestUnit
   m_TagString: RTSControlableUnit
@@ -758,26 +779,6 @@ Transform:
   - {fileID: 46868542}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1519036375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519036370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39ed42fa98bbae84897af2831c552c91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitName: TestUnit
-  HP: 100
-  canAttackWhenMove: 0
-  camp: 1
-  alertRange: 10
-  maxMoveSpeed: 5
-  currentMoveSpeed: 0
-  currentTargetEnemy: {fileID: 0}
 --- !u!114 &1519036376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,6 +813,27 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1519036378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519036370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72fc4b6d97122442898bdc28fb4f55f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: 280b66e9f1ccac74688db9175d20c179, type: 2}
+  weapon: {fileID: 1378347246}
+  camp: 0
+  currentMoveSpeed: 0
+  HP: 0
+  isCeaseFire: 1
+  isAlive: 1
+  isMoving: 0
+  currentTargetEnemy: {fileID: 0}
 --- !u!1001 &1583248378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -874,12 +896,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: db6a04024e9d9f642b1e3d0e3821b9d2, type: 3}
       propertyPath: m_Name
-      value: blaster-f
+      value: AKWeapon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: db6a04024e9d9f642b1e3d0e3821b9d2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1378347246}
   m_SourcePrefab: {fileID: 100100000, guid: db6a04024e9d9f642b1e3d0e3821b9d2, type: 3}
 --- !u!1 &1583434824
 GameObject:

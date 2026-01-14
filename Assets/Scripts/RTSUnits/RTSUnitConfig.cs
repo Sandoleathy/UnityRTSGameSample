@@ -4,7 +4,7 @@ using UnityEngine;
 public class RTSUnitConfig: ScriptableObject{
     [Header("基础信息")]
     public string id;
-    public string name;
+    public string unitName;
     [Header("属性")]
     public float maxHP;
     public float maxMoveSpeed;
@@ -14,6 +14,8 @@ public class RTSUnitConfig: ScriptableObject{
     public float alertRange;
     [Header("单位类型")]
     public RTSUnitType type;
+
+    public bool hasTurrent;
 }
 
 public enum RTSUnitType

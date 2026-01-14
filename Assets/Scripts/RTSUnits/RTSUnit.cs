@@ -20,15 +20,30 @@ public class RTSUnit : MonoBehaviour
     [Header("当前属性")]
     public float currentMoveSpeed = 0f; // 当前移动速度（可用于加速/减速）
     public float HP = 0f;
+    public bool isCeaseFire = true;     // 是否停止开火
+    public bool isAlive = true;
     protected Vector3 moveTargetPosition;   // 移动目标位置
-    protected bool isMoving = false;
+    public bool isMoving = false;
 
     protected IMoveAlgorithm moveAlgorithm;
     protected IAlertAlgorithm alertAlgorithm;
     [Header("锁定的敌人单位")]
     public RTSUnit currentTargetEnemy;
+    protected Quaternion targetRotation;
 
     private OutlineObject outline;
+
+//----------- 视觉效果相关（暂时） --------
+    private Renderer unitRenderer;
+    private Color originalColor;
+
+    private void Awake() {
+        unitRenderer = GetComponentInChildren<Renderer>();
+        if (unitRenderer != null)
+            originalColor = unitRenderer.material.color;
+    }
+
+//--------------------------------------
 
     void Start()
     {
@@ -79,8 +94,8 @@ public class RTSUnit : MonoBehaviour
     /// </summary>
     public void MoveTo(Vector3 destination, float speed = -1f)
     {
-        moveTargetPosition = destination;
         isMoving = true;
+        moveTargetPosition = destination;
         currentMoveSpeed = (speed > 0) ? Mathf.Min(speed, config.maxMoveSpeed) : config.maxMoveSpeed;
     }
 
@@ -98,22 +113,41 @@ public class RTSUnit : MonoBehaviour
     /// </summary>
     public void OnDead()
     {
+        isAlive = false;
+        gameObject.layer = LayerMask.NameToLayer("DeadLayer");
+        //TODO: 死亡效果
+        StartCoroutine(HitEffect(2f));    // 临时受击特效
         Debug.Log($"{name} HP耗尽, 死亡了!");
-        Destroy(this, 2f);
+        Destroy(gameObject, 2f);
     }
     /// <summary>
     /// 攻击敌人
     /// </summary>
     /// <param name="enemy">选定的敌人单位</param>
-    protected void Attack(RTSUnit enemy)
+    protected void AttemptToAttack(RTSUnit enemy)
     {
-        Debug.Log($"{name} 攻击 {enemy.name}");
+        if (config.hasTurrent)
+        {
+            //TOD: 转动炮台朝向敌人
+        }
+        else
+        {
+            // 旋转单位朝向敌人
+            targetRotation = Quaternion.LookRotation(enemy.transform.position - transform.position, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * config.maxRotateSpeed);
+        }
+        if(weapon != null){
+            if(weapon.Attack(enemy)) Debug.Log($"{config.unitName} 使用 {weapon.name} 对 {enemy.config.unitName} 发起攻击！");
+        }
+        else{
+            Debug.Log($"{config.unitName} 没有武器，无法攻击！");
+        }
         // TODO: 攻击实现
     }
     /// <summary>
     /// 受到伤害
     /// </Summary>
-    public void takeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         HP -= damage;
         Debug.Log($"{name} 受到 {damage} 点伤害, 当前HP: {HP}");
@@ -121,21 +155,42 @@ public class RTSUnit : MonoBehaviour
         {
             OnDead();
         }
+        else
+        {
+            StartCoroutine(HitEffect());    // 临时受击特效
+        }
+    }
+
+    private IEnumerator HitEffect(float duration = 0.2f)
+    {
+        if (unitRenderer != null)
+        {
+            unitRenderer.material.color = Color.red; // 变红
+            yield return new WaitForSeconds(duration);  // 持续0.2秒
+            unitRenderer.material.color = originalColor; // 恢复原色
+        }
     }
 
     protected void Update()
     {
+        if(!isAlive) return; //死了就不要更新了
+        RTSUnit enemy = null;
         // 检测敌人
-        RTSUnit enemy = alertAlgorithm?.DetectEnemy(this);
+        if(!isCeaseFire){
+            enemy = alertAlgorithm?.DetectEnemy(this);
+        }
         //如果发现敌人并且单位是静止的，就可以攻击
         //如果允许移动攻击（canAttackWhileMove == true），那就算在移动也可以攻击。
         if (enemy != null && (!isMoving || config.canAttackWhileMove))
         {
+            if(enemy.isAlive == false){
+                currentTargetEnemy = null;
+                return;
+            }
             currentTargetEnemy = enemy;
-            Attack(currentTargetEnemy);
-            return;
+            AttemptToAttack(currentTargetEnemy);
         }
-        if (isMoving && moveAlgorithm != null)
+        if (moveAlgorithm != null)
         {
             Vector3 delta = moveAlgorithm.GetMoveDelta(
                 transform.position,
@@ -146,18 +201,23 @@ public class RTSUnit : MonoBehaviour
 
             if (delta != Vector3.zero)
             {
+                isMoving = true;
                 // 移动
                 transform.position += delta;
 
                 // 旋转朝向移动方向
-                Quaternion targetRotation = Quaternion.LookRotation(delta, Vector3.up);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+                targetRotation = Quaternion.LookRotation(delta, Vector3.up);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * config.maxRotateSpeed);
             }
-
-            if (Vector3.Distance(transform.position, moveTargetPosition) < 0.1f)
+            else
             {
-                StopMove();
+                isMoving = false;
             }
+            // if (Vector3.Distance(transform.position, moveTargetPosition) < 0.5f)
+            // {
+            //     Debug.Log($"{name} 停止移动");
+            //     StopMove();
+            // }
         }
         if (HP <= 0)
         {
