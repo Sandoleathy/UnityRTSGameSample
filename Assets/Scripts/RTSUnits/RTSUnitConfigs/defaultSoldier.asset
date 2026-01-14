@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d53a38e383690c49b1fafee52dd066a, type: 3}
   m_Name: defaultSoldier
   m_EditorClassIdentifier: 
-  id: 
-  name: 
-  maxHP: 0
-  maxMoveSpeed: 0
-  maxRotateSpeed: 0
+  id: 0
+  name: Soldier
+  maxHP: 100
+  maxMoveSpeed: 5
+  maxRotateSpeed: 10
   canAttackWhileMove: 0
-  viewRange: 0
-  alertRange: 0
+  viewRange: 8
+  alertRange: 5
   type: 0

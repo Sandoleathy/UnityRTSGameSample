@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d108e332ac8146840aef6f0967701c49, type: 3}
   m_Name: AK74
   m_EditorClassIdentifier: 
-  id: 
-  name: 
-  damage: 0
-  attackRange: 0
-  attackSpeed: 0
+  id: 0
+  name: AK74
+  damage: 10
+  attackRange: 5
+  attackSpeed: 1
   attackType: 0
