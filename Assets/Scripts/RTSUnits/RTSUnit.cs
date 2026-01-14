@@ -173,7 +173,7 @@ public class RTSUnit : MonoBehaviour
             AttemptToAttack(currentTargetEnemy);
             return;
         }
-        if (isMoving && moveAlgorithm != null)
+        if (moveAlgorithm != null)
         {
             Vector3 delta = moveAlgorithm.GetMoveDelta(
                 transform.position,
@@ -184,12 +184,17 @@ public class RTSUnit : MonoBehaviour
 
             if (delta != Vector3.zero)
             {
+                isMoving = true;
                 // 移动
                 transform.position += delta;
 
                 // 旋转朝向移动方向
                 Quaternion targetRotation = Quaternion.LookRotation(delta, Vector3.up);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            }
+            else
+            {
+                isMoving = false;
             }
             // if (Vector3.Distance(transform.position, moveTargetPosition) < 0.5f)
             // {
