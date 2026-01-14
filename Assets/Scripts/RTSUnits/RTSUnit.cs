@@ -94,7 +94,6 @@ public class RTSUnit : MonoBehaviour
     /// </summary>
     public void MoveTo(Vector3 destination, float speed = -1f)
     {
-        Debug.Log("Move to");
         isMoving = true;
         moveTargetPosition = destination;
         currentMoveSpeed = (speed > 0) ? Mathf.Min(speed, config.maxMoveSpeed) : config.maxMoveSpeed;
@@ -117,6 +116,7 @@ public class RTSUnit : MonoBehaviour
         isAlive = false;
         gameObject.layer = LayerMask.NameToLayer("DeadLayer");
         //TODO: 死亡效果
+        StartCoroutine(HitEffect(2f));    // 临时受击特效
         Debug.Log($"{name} HP耗尽, 死亡了!");
         Destroy(gameObject, 2f);
     }
@@ -150,20 +150,23 @@ public class RTSUnit : MonoBehaviour
     public void TakeDamage(float damage)
     {
         HP -= damage;
-        StartCoroutine(HitEffect());    // 临时受击特效
         Debug.Log($"{name} 受到 {damage} 点伤害, 当前HP: {HP}");
         if (HP <= 0)
         {
             OnDead();
         }
+        else
+        {
+            StartCoroutine(HitEffect());    // 临时受击特效
+        }
     }
 
-    private IEnumerator HitEffect()
+    private IEnumerator HitEffect(float duration = 0.2f)
     {
         if (unitRenderer != null)
         {
             unitRenderer.material.color = Color.red; // 变红
-            yield return new WaitForSeconds(0.2f);  // 持续0.2秒
+            yield return new WaitForSeconds(duration);  // 持续0.2秒
             unitRenderer.material.color = originalColor; // 恢复原色
         }
     }
@@ -180,9 +183,12 @@ public class RTSUnit : MonoBehaviour
         //如果允许移动攻击（canAttackWhileMove == true），那就算在移动也可以攻击。
         if (enemy != null && (!isMoving || config.canAttackWhileMove))
         {
+            if(enemy.isAlive == false){
+                currentTargetEnemy = null;
+                return;
+            }
             currentTargetEnemy = enemy;
             AttemptToAttack(currentTargetEnemy);
-            return;
         }
         if (moveAlgorithm != null)
         {
