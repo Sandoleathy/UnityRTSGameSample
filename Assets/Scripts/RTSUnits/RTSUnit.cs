@@ -29,6 +29,7 @@ public class RTSUnit : MonoBehaviour
     protected IAlertAlgorithm alertAlgorithm;
     [Header("锁定的敌人单位")]
     public RTSUnit currentTargetEnemy;
+    protected Quaternion targetRotation;
 
     private OutlineObject outline;
 
@@ -125,11 +126,21 @@ public class RTSUnit : MonoBehaviour
     /// <param name="enemy">选定的敌人单位</param>
     protected void AttemptToAttack(RTSUnit enemy)
     {
+        if (config.hasTurrent)
+        {
+            //TOD: 转动炮台朝向敌人
+        }
+        else
+        {
+            // 旋转单位朝向敌人
+            targetRotation = Quaternion.LookRotation(enemy.transform.position - transform.position, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * config.maxRotateSpeed);
+        }
         if(weapon != null){
-            if(weapon.Attack(enemy)) Debug.Log($"{config.name} 使用 {weapon.name} 对 {enemy.config.name} 发起攻击！");
+            if(weapon.Attack(enemy)) Debug.Log($"{config.unitName} 使用 {weapon.name} 对 {enemy.config.unitName} 发起攻击！");
         }
         else{
-            Debug.Log($"{config.name} 没有武器，无法攻击！");
+            Debug.Log($"{config.unitName} 没有武器，无法攻击！");
         }
         // TODO: 攻击实现
     }
@@ -189,8 +200,8 @@ public class RTSUnit : MonoBehaviour
                 transform.position += delta;
 
                 // 旋转朝向移动方向
-                Quaternion targetRotation = Quaternion.LookRotation(delta, Vector3.up);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+                targetRotation = Quaternion.LookRotation(delta, Vector3.up);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * config.maxRotateSpeed);
             }
             else
             {
