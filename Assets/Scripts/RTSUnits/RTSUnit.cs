@@ -12,7 +12,8 @@ public class RTSUnit : MonoBehaviour
     /// <summary>
     /// 武器
     /// </summary>
-    public Weapon weapon;
+    public List<Weapon> weapons;
+    private bool _isLoggedNoWeapon = false;
     
     [Header("阵营")]
     public int camp;
@@ -136,11 +137,13 @@ public class RTSUnit : MonoBehaviour
             targetRotation = Quaternion.LookRotation(enemy.transform.position - transform.position, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * config.maxRotateSpeed);
         }
-        if(weapon != null){
-            if(weapon.Attack(enemy)) Debug.Log($"{config.unitName} 使用 {weapon.name} 对 {enemy.config.unitName} 发起攻击！");
+        if(weapons.Count > 0){
+            foreach(Weapon weapon in weapons){
+                if(weapon.Attack(enemy)) Debug.Log($"{config.unitName} 使用 {weapon.name} 对 {enemy.config.unitName} 发起攻击！");   
+            }
         }
         else{
-            Debug.Log($"{config.unitName} 没有武器，无法攻击！");
+            if(!_isLoggedNoWeapon) {Debug.Log($"{config.unitName} 没有武器，无法攻击！");_isLoggedNoWeapon = true;}
         }
         // TODO: 攻击实现
     }
