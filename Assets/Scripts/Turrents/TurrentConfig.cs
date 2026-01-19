@@ -7,5 +7,4 @@ public class TurrentConfig: ScriptableObject{
     public string turrentName;
     [Header("属性")]
     public float maxRotateSpeed;
-    public Weapon weapon;
 }

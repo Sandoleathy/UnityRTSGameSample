@@ -17,7 +17,7 @@ MonoBehaviour:
   maxHP: 250
   maxMoveSpeed: 6
   maxRotateSpeed: 5
-  canAttackWhileMove: 0
+  canAttackWhileMove: 1
   viewRange: 10
   alertRange: 10
   type: 0
