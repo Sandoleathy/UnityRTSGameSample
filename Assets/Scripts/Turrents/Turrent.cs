@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Turrent : MonoBehaviour
 {
     public TurrentConfig config;
+    public Weapon weapon;
 
     private void Start() {
         
@@ -36,9 +38,9 @@ public class Turrent : MonoBehaviour
     {
         if(IsAlignWithTarget(enemy.transform.position))
         {
-            if (config.weapon != null)
+            if (weapon != null)
             {
-                return config.weapon.Attack(enemy);
+                return weapon.Attack(enemy);
             }
             else return false;
         }
