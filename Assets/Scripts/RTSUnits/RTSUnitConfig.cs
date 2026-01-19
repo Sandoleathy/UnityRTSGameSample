@@ -15,7 +15,6 @@ public class RTSUnitConfig: ScriptableObject{
     [Header("单位类型")]
     public RTSUnitType type;
 
-    public bool hasTurrent;
 }
 
 public enum RTSUnitType

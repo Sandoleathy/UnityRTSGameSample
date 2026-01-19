@@ -12,18 +12,23 @@ public class RTSUnit : MonoBehaviour
     /// <summary>
     /// 武器
     /// </summary>
-    public Weapon weapon;
+    public List<Weapon> weapons;
+    public List<Turrent> turrents;
+    private bool _isLoggedNoWeapon = false;
     
     [Header("阵营")]
     public int camp;
 
     [Header("当前属性")]
-    public float currentMoveSpeed = 0f; // 当前移动速度（可用于加速/减速）
+    public float targetSpeed = 0f; // 当前移动速度（可用于加速/减速）
     public float HP = 0f;
     public bool isCeaseFire = true;     // 是否停止开火
     public bool isAlive = true;
+    // ====== 移动与警戒相关 ======
+    [Header("移动相关")]
     protected Vector3 moveTargetPosition;   // 移动目标位置
     public bool isMoving = false;
+    public float stopEpsilon = 0.5f; // 停止移动的误差范围
 
     protected IMoveAlgorithm moveAlgorithm;
     protected IAlertAlgorithm alertAlgorithm;
@@ -91,12 +96,13 @@ public class RTSUnit : MonoBehaviour
 
     /// <summary>
     /// 设置移动目标点
+    /// 可以指定每次移动的移动速度
     /// </summary>
     public void MoveTo(Vector3 destination, float speed = -1f)
     {
         isMoving = true;
         moveTargetPosition = destination;
-        currentMoveSpeed = (speed > 0) ? Mathf.Min(speed, config.maxMoveSpeed) : config.maxMoveSpeed;
+        targetSpeed = (speed > 0) ? Mathf.Min(speed, config.maxMoveSpeed) : config.maxMoveSpeed;
     }
 
     /// <summary>
@@ -104,8 +110,10 @@ public class RTSUnit : MonoBehaviour
     /// </summary>
     public void StopMove()
     {
+        Debug.Log($"{name} 停止移动");
         isMoving = false;
-        currentMoveSpeed = 0f;
+        targetSpeed = 0f;
+        moveTargetPosition = transform.position;
     }
 
     /// <summary>
@@ -126,9 +134,13 @@ public class RTSUnit : MonoBehaviour
     /// <param name="enemy">选定的敌人单位</param>
     protected void AttemptToAttack(RTSUnit enemy)
     {
-        if (config.hasTurrent)
+        if (turrents.Count > 0)
         {
-            //TOD: 转动炮台朝向敌人
+            // 使用炮塔攻击
+            foreach (Turrent turrent in turrents)
+            {
+                turrent.AimAndAttack(enemy);
+            }
         }
         else
         {
@@ -136,11 +148,13 @@ public class RTSUnit : MonoBehaviour
             targetRotation = Quaternion.LookRotation(enemy.transform.position - transform.position, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * config.maxRotateSpeed);
         }
-        if(weapon != null){
-            if(weapon.Attack(enemy)) Debug.Log($"{config.unitName} 使用 {weapon.name} 对 {enemy.config.unitName} 发起攻击！");
+        if(weapons.Count > 0){
+            foreach(Weapon weapon in weapons){
+                if(weapon.Attack(enemy)) Debug.Log($"{config.unitName} 使用 {weapon.name} 对 {enemy.config.unitName} 发起攻击！");   
+            }
         }
         else{
-            Debug.Log($"{config.unitName} 没有武器，无法攻击！");
+            if(!_isLoggedNoWeapon) {Debug.Log($"{config.unitName} 没有武器");_isLoggedNoWeapon = true;}
         }
         // TODO: 攻击实现
     }
@@ -190,12 +204,12 @@ public class RTSUnit : MonoBehaviour
             currentTargetEnemy = enemy;
             AttemptToAttack(currentTargetEnemy);
         }
-        if (moveAlgorithm != null)
+        if (moveAlgorithm != null && moveTargetPosition != null)
         {
             Vector3 delta = moveAlgorithm.GetMoveDelta(
                 transform.position,
                 moveTargetPosition,
-                currentMoveSpeed,
+                targetSpeed,
                 Time.deltaTime
             );
 
@@ -213,11 +227,10 @@ public class RTSUnit : MonoBehaviour
             {
                 isMoving = false;
             }
-            // if (Vector3.Distance(transform.position, moveTargetPosition) < 0.5f)
-            // {
-            //     Debug.Log($"{name} 停止移动");
-            //     StopMove();
-            // }
+            if ((moveTargetPosition - transform.position).sqrMagnitude < stopEpsilon * stopEpsilon && isMoving)
+            {
+                StopMove();
+            }
         }
         if (HP <= 0)
         {
