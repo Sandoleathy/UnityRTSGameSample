@@ -154,7 +154,7 @@ public class RTSUnit : MonoBehaviour
             }
         }
         else{
-            if(!_isLoggedNoWeapon) {Debug.Log($"{config.unitName} 没有武器");_isLoggedNoWeapon = true;}
+            if(turrents.Count == 0)if(!_isLoggedNoWeapon) {Debug.Log($"{config.unitName} 没有武器");_isLoggedNoWeapon = true;}
         }
         // TODO: 攻击实现
     }
