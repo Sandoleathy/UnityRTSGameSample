@@ -7,7 +7,7 @@ public class MilitaryModule : MonoBehaviour{
 
     public bool isCeaseFire;
 
-    protected IAlertAlgorithm alertAlgorithm;
+    private IAlertAlgorithm alertAlgorithm;
 
     public RTSUnit owner;
     private RTSUnit currentTargetEnemy;
@@ -68,4 +68,5 @@ public class MilitaryModule : MonoBehaviour{
             AttemptToAttack(currentTargetEnemy);
         }
     }
+
 }

@@ -7,7 +7,7 @@ public class NavigationModule: MonoBehaviour
     private Vector3 moveTargetPosition;
     public float maxMoveSpeed;
     public float targetSpeed;
-    public IMoveAlgorithm moveAlgorithm;
+    private IMoveAlgorithm moveAlgorithm;
     protected Quaternion targetRotation;
     public float stopEpsilon = 0.5f;
     public float maxRotateSpeed;
@@ -70,5 +70,9 @@ public class NavigationModule: MonoBehaviour
     public Quaternion GetTargetRotation()
     {
         return targetRotation;
+    }
+    public void SetMoveAlgorithm(IMoveAlgorithm algorithm)
+    {
+        moveAlgorithm = algorithm;
     }
 }
