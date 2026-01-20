@@ -56,7 +56,7 @@ public class RTSCommandController : MonoBehaviour
 
         foreach (RTSUnit unit in selectedUnits)
         {
-            unit.MoveTo(target);
+            if(unit.navigationModule != null) unit.navigationModule.MoveTo(target);
         }
     }
 }
