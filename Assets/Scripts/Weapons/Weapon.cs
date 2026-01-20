@@ -49,7 +49,11 @@ public class Weapon : MonoBehaviour {
     private void SingleDirectAttack(RTSUnit target){
         float distance = Vector3.Distance(transform.position, target.transform.position);
         if(distance < weaponConfig.attackRange){
-            target.TakeDamage(weaponConfig.damage);
+            
+            if(target.gameObject.TryGetComponent<HealthModule>(out HealthModule healthModule)){
+                healthModule.OnTakeDamage(weaponConfig.damage);
+            }
+
             Debug.Log($"{name} 攻击 {target.name} 造成了 {weaponConfig.damage} 伤害");
         }else{
             Debug.Log($"{name} 攻击 {target.name} 距离太远，无法攻击");

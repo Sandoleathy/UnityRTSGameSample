@@ -26,13 +26,13 @@ public class RTSCommandController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.S)){
             List<RTSUnit> selectedUnits = selector.GetSelectedUnits();
             foreach(RTSUnit unit in selectedUnits){
-                unit.isCeaseFire = true;
+                if(unit.militaryModule != null)unit.militaryModule.isCeaseFire = true;
                 Debug.Log($"{unit.name} 停止开火");
             }
         }else if(Input.GetKeyDown(KeyCode.G)){
             List<RTSUnit> selectedUnits = selector.GetSelectedUnits();
             foreach(RTSUnit unit in selectedUnits){
-                unit.isCeaseFire = false;
+                if(unit.militaryModule != null)unit.militaryModule.isCeaseFire = false;
                 Debug.Log($"{unit.name} 开始开火");
             }
         }
