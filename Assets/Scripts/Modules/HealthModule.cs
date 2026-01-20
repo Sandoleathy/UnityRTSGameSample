@@ -9,6 +9,7 @@ public class HealthModule : MonoBehaviour
     public bool isAlive;
     public void Init(RTSUnit owner)
     {
+        maxHealth = owner.config.maxHP;
         currentHealth = maxHealth;
         this.owner = owner;
         isAlive = true;

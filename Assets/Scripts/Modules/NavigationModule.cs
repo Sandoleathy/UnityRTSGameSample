@@ -18,6 +18,8 @@ public class NavigationModule: MonoBehaviour
         isMoving = true;
         moveTargetPosition = destination;
         targetSpeed = (speed > 0) ? Mathf.Min(speed, maxMoveSpeed) : maxMoveSpeed;
+        maxMoveSpeed = owner.config.maxMoveSpeed;
+        maxRotateSpeed = owner.config.maxRotateSpeed;
     }
 
     /// <summary>
