@@ -9,7 +9,7 @@ public class MilitaryModule : MonoBehaviour{
 
     private IAlertAlgorithm alertAlgorithm;
 
-    public RTSUnit owner;
+    private RTSUnit owner;
     private RTSUnit currentTargetEnemy;
     private bool _isLoggedNoWeapon = false;
     private NavigationModule _navigationModule;

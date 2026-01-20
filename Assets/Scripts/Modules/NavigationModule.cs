@@ -13,13 +13,17 @@ public class NavigationModule: MonoBehaviour
     public float maxRotateSpeed;
 
 
+    public void Init(RTSUnit owner)
+    {
+        this.owner = owner;
+        maxMoveSpeed = owner.config.maxMoveSpeed;
+        maxRotateSpeed = owner.config.maxRotateSpeed;
+    }
     public void MoveTo(Vector3 destination, float speed = -1f)
     {
         isMoving = true;
         moveTargetPosition = destination;
         targetSpeed = (speed > 0) ? Mathf.Min(speed, maxMoveSpeed) : maxMoveSpeed;
-        maxMoveSpeed = owner.config.maxMoveSpeed;
-        maxRotateSpeed = owner.config.maxRotateSpeed;
     }
 
     /// <summary>
