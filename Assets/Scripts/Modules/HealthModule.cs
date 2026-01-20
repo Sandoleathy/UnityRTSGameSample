@@ -22,12 +22,14 @@ public class HealthModule : MonoBehaviour
 
     public void OnTakeDamage(float amount)
     {
-        //当amount为负数时，表示治疗
+        // 当amount为负数时，表示治疗
         currentHealth = Mathf.Min(currentHealth - amount, maxHealth);
         if (currentHealth <= 0)
         {
             OnDead();
         }
+        // 播放临时受伤效果
+        owner.TakeDamage();
     }
 
     /// <summary>
