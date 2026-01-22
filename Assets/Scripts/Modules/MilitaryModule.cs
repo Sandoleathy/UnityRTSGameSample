@@ -12,11 +12,11 @@ public class MilitaryModule : MonoBehaviour{
     private RTSUnit owner;
     private RTSUnit currentTargetEnemy;
     private bool _isLoggedNoWeapon = false;
-    private NavigationModule _navigationModule;
+    private NavigationModule navigationModule;
 
     public void Init(RTSUnit owner){
         this.owner = owner;
-        _navigationModule = GetComponent<NavigationModule>();
+        navigationModule = owner.navigationModule;
     }
     public void SetAlertAlgorithm(IAlertAlgorithm algorithm)
     {
@@ -36,7 +36,7 @@ public class MilitaryModule : MonoBehaviour{
         else
         {
             // 为NavigationModule设置旋转方向
-            _navigationModule?.SetTargetRotation(Quaternion.LookRotation(enemy.transform.position - transform.position, Vector3.up));
+            if(navigationModule != null) navigationModule.SetTargetRotation(Quaternion.LookRotation(enemy.transform.position - transform.position, Vector3.up));
         }
         if(weapons.Count > 0){
             foreach(Weapon weapon in weapons){
@@ -58,7 +58,7 @@ public class MilitaryModule : MonoBehaviour{
         }
         //如果发现敌人并且单位是静止的，就可以攻击
         //如果允许移动攻击（canAttackWhileMove == true），那就算在移动也可以攻击。
-        if (enemy != null && (!_navigationModule.isMoving || owner.canAttackWhileMove))
+        if (enemy != null && (!navigationModule.isMoving || owner.canAttackWhileMove))
         {
             if(!enemy.isAlive){
                 currentTargetEnemy = null;
