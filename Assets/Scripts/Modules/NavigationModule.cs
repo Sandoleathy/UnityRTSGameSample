@@ -56,12 +56,12 @@ public class NavigationModule: MonoBehaviour
 
                 // 旋转朝向移动方向
                 targetRotation = Quaternion.LookRotation(delta, Vector3.up);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * maxRotateSpeed);
             }
             else
             {
                 isMoving = false;
             }
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * maxRotateSpeed);
             if ((moveTargetPosition - transform.position).sqrMagnitude < stopEpsilon * stopEpsilon && isMoving)
             {
                 StopMove();
