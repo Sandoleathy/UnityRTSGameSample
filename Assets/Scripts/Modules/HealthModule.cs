@@ -1,4 +1,5 @@
 
+using System.Collections;
 using UnityEngine;
 
 public class HealthModule : MonoBehaviour
@@ -7,18 +8,32 @@ public class HealthModule : MonoBehaviour
     public float maxHealth;
     private RTSUnit owner;
     public bool isAlive;
+
+    private Renderer unitRenderer;
+    private Color originalColor;
+
+    private void Awake() {
+        unitRenderer = GetComponentInChildren<Renderer>();
+        if (unitRenderer != null) originalColor = unitRenderer.material.color;    
+    }
+
+    private IEnumerator HitEffect(float duration = 0.2f)
+    {
+        if (unitRenderer != null)
+        {
+            unitRenderer.material.color = Color.red; // 变红
+            yield return new WaitForSeconds(duration);  // 持续0.2秒
+            unitRenderer.material.color = originalColor; // 恢复原色
+        }
+    }
+
+
     public void Init(RTSUnit owner)
     {
         maxHealth = owner.config.maxHP;
         currentHealth = maxHealth;
         this.owner = owner;
         isAlive = true;
-    }
-
-    public void OnDestroy()
-    {
-        isAlive = false;
-        return;
     }
 
     public void OnTakeDamage(float amount)
@@ -29,8 +44,7 @@ public class HealthModule : MonoBehaviour
         {
             OnDead();
         }
-        // 播放临时受伤效果
-        owner.TakeDamage();
+        else StartCoroutine(HitEffect());    // 临时受击特效
     }
 
     /// <summary>
@@ -42,23 +56,7 @@ public class HealthModule : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("DeadLayer");
         //TODO: 死亡效果
         Debug.Log($"{name} HP耗尽, 死亡了!");
+        StartCoroutine(HitEffect(2f));    // 临时受击特效
         Destroy(gameObject, 2f);
-        //临时留下调用死亡特效
-        owner.OnDead();
-    }
-
-    void Start()
-    {
-        
-    }
-
-    void Awake()
-    {
-        
-    }
-
-    void Update()
-    {
-        
     }
 }

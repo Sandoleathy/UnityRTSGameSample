@@ -25,16 +25,6 @@ public class RTSUnit : MonoBehaviour
 
     private OutlineObject outline;
 
-//----------- 视觉效果相关（暂时） --------
-    private Renderer unitRenderer;
-    private Color originalColor;
-
-    private void Awake() {
-        unitRenderer = GetComponentInChildren<Renderer>();
-        if (unitRenderer != null)
-            originalColor = unitRenderer.material.color;
-    }
-
 //--------------------------------------
 
     void Start()
@@ -85,31 +75,4 @@ public class RTSUnit : MonoBehaviour
             outline.enabled = false;
         }
     }
-
-    /// <summary>
-    /// 死亡时触发
-    /// </summary>
-    public void OnDead()
-    {
-        StartCoroutine(HitEffect(2f));    // 临时受击特效
-    }
-    
-    /// <summary>
-    /// 受到伤害
-    /// </Summary>
-    public void TakeDamage()
-    {
-        StartCoroutine(HitEffect());    // 临时受击特效
-    }
-
-    private IEnumerator HitEffect(float duration = 0.2f)
-    {
-        if (unitRenderer != null)
-        {
-            unitRenderer.material.color = Color.red; // 变红
-            yield return new WaitForSeconds(duration);  // 持续0.2秒
-            unitRenderer.material.color = originalColor; // 恢复原色
-        }
-    }
-
 }
