@@ -12,7 +12,7 @@ public class RTSUnit : MonoBehaviour
     public bool canAttackWhileMove;
     [Header("模块")]
     public RTSUnitModuleContainer moduleContainer;
-    private List<IUpdatableModule> updatableModules;
+    public List<string> moduleNames;
     [Header("指令系统")]
     private List<ICommand> commandQueue;
     
@@ -32,7 +32,6 @@ public class RTSUnit : MonoBehaviour
     {   
         // 初始化模块容器
         moduleContainer = new RTSUnitModuleContainer();
-        updatableModules = new List<IUpdatableModule>();
 
         // 初始化指令队列
         commandQueue = new List<ICommand>();
@@ -49,6 +48,8 @@ public class RTSUnit : MonoBehaviour
         AddModule(new HealthModule());
         AddModule(new NavigationModule());   
         AddModule(new MilitaryModule());
+
+        moduleNames = moduleContainer.GetModuleNames();
     }
     public void EnqueueCommand(ICommand command)
     {
@@ -73,20 +74,13 @@ public class RTSUnit : MonoBehaviour
         // 暂时每帧执行一个指令
         ExecuteCommand();
 
-        // 更新模块
-        foreach (IUpdatableModule module in updatableModules)
-        {
-            module.Tick(Time.deltaTime);
-        }
+        moduleContainer.Tick(Time.deltaTime);
     }
 
     private void AddModule(IModule module)
     {
         moduleContainer.Add(module);
         module.Init(this);
-
-        // 加入需要每帧刷新的模块
-        if (module is IUpdatableModule updatable) updatableModules.Add(updatable);
     }
 
     /// <summary>
