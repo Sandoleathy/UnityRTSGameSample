@@ -86,7 +86,7 @@ public class RTSUnit : MonoBehaviour
         module.Init(this);
 
         // 加入需要每帧刷新的模块
-    if (module is IUpdatableModule updatable) updatableModules.Add(updatable);
+        if (module is IUpdatableModule updatable) updatableModules.Add(updatable);
     }
 
     /// <summary>
