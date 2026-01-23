@@ -11,17 +11,18 @@ public class RTSUnit : MonoBehaviour
     public string unitName;
     public bool canAttackWhileMove;
     [Header("模块")]
-    public HealthModule healthModule;
-    public MilitaryModule militaryModule;
-    public NavigationModule navigationModule;
+    public RTSUnitModuleContainer moduleContainer;
+    private List<IUpdatableModule> updatableModules;
+    [Header("指令系统")]
+    private List<ICommand> commandQueue;
     
     [Header("阵营")]
     public int camp;
 
     [Header("当前属性")]
     public bool isAlive = true;
-    protected IMoveAlgorithm moveAlgorithm;
-    protected IAlertAlgorithm alertAlgorithm;
+    public IMoveAlgorithm moveAlgorithm;
+    public IAlertAlgorithm alertAlgorithm;
 
     private OutlineObject outline;
 
@@ -29,27 +30,63 @@ public class RTSUnit : MonoBehaviour
 
     void Start()
     {   
-        navigationModule?.Init(this);
-        militaryModule?.Init(this);
-        healthModule?.Init(this);
-        SetMoveAlgorithm(new NavMeshMoveAlgorithm(GetComponent<NavMeshAgent>()));
-        SetAlertAlgorithm(new RangeAlertAlgorithm());
+        // 初始化模块容器
+        moduleContainer = new RTSUnitModuleContainer();
+        updatableModules = new List<IUpdatableModule>();
+
+        // 初始化指令队列
+        commandQueue = new List<ICommand>();
+
+        // 临时固定算法
+        moveAlgorithm = new NavMeshMoveAlgorithm(GetComponent<NavMeshAgent>());
+        alertAlgorithm = new RangeAlertAlgorithm();
+
+
         unitName = config.unitName;
         canAttackWhileMove = config.canAttackWhileMove;
+
+        // 临时手动增加模块，之后从配置文件中加载
+        AddModule(new HealthModule());
+        AddModule(new NavigationModule());   
+        AddModule(new MilitaryModule());
+    }
+    public void EnqueueCommand(ICommand command)
+    {
+        commandQueue.Add(command);
     }
 
-    // ====== 基础方法 ======
+    private void ExecuteCommand()
+    {
+        if (commandQueue.Count > 0)
+        {
+            ICommand currentCommand = commandQueue[0];
 
-    // 这两个方法时临时的
-    public void SetMoveAlgorithm(IMoveAlgorithm algorithm)
-    {
-        moveAlgorithm = algorithm;
-        navigationModule.SetMoveAlgorithm(algorithm);
+            Debug.Log($"{unitName} 执行指令: {currentCommand.GetType().Name}");
+
+            currentCommand.Execute(this);
+            commandQueue.RemoveAt(0);
+        }
     }
-    public void SetAlertAlgorithm(IAlertAlgorithm algorithm)
+
+    void Update()
     {
-        alertAlgorithm = algorithm;
-        militaryModule.SetAlertAlgorithm(algorithm);
+        // 暂时每帧执行一个指令
+        ExecuteCommand();
+
+        // 更新模块
+        foreach (IUpdatableModule module in updatableModules)
+        {
+            module.Tick(Time.deltaTime);
+        }
+    }
+
+    private void AddModule(IModule module)
+    {
+        moduleContainer.Add(module);
+        module.Init(this);
+
+        // 加入需要每帧刷新的模块
+    if (module is IUpdatableModule updatable) updatableModules.Add(updatable);
     }
 
     /// <summary>

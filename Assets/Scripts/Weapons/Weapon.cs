@@ -50,9 +50,9 @@ public class Weapon : MonoBehaviour {
         float distance = Vector3.Distance(transform.position, target.transform.position);
         if(distance < weaponConfig.attackRange){
             
-            if(target.gameObject.TryGetComponent<HealthModule>(out HealthModule healthModule)){
-                healthModule.OnTakeDamage(weaponConfig.damage);
-            }
+            HealthModule healthModule = target.moduleContainer.Get<HealthModule>();
+            // 直接命中目标，造成伤害
+            healthModule?.OnTakeDamage(weaponConfig.damage);
 
             Debug.Log($"{name} 攻击 {target.name} 造成了 {weaponConfig.damage} 伤害");
         }else{

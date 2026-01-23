@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NavigationModule: MonoBehaviour
+public class NavigationModule: IModule, IUpdatableModule
 {
     private RTSUnit owner;
     public bool isMoving = false;
@@ -18,6 +18,7 @@ public class NavigationModule: MonoBehaviour
         this.owner = owner;
         maxMoveSpeed = owner.config.maxMoveSpeed;
         maxRotateSpeed = owner.config.maxRotateSpeed;
+        moveAlgorithm = owner.moveAlgorithm;
     }
     public void MoveTo(Vector3 destination, float speed = -1f)
     {
@@ -31,28 +32,28 @@ public class NavigationModule: MonoBehaviour
     /// </summary>
     public void StopMove()
     {
-        Debug.Log($"{name} 停止移动");
+        Debug.Log($"{owner.unitName} 停止移动");
         isMoving = false;
         targetSpeed = 0f;
-        moveTargetPosition = transform.position;
+        moveTargetPosition = owner.transform.position;
     }
 
-    public void Update()
+    public void Tick(float dt)
     {
         if (moveAlgorithm != null && moveTargetPosition != null)
         {
             Vector3 delta = moveAlgorithm.GetMoveDelta(
-                transform.position,
+                owner.transform.position,
                 moveTargetPosition,
                 targetSpeed,
-                Time.deltaTime
+                dt
             );
 
             if (delta != Vector3.zero)
             {
                 isMoving = true;
                 // 移动
-                transform.position += delta;
+                owner.transform.position += delta;
 
                 // 旋转朝向移动方向
                 targetRotation = Quaternion.LookRotation(delta, Vector3.up);
@@ -61,8 +62,8 @@ public class NavigationModule: MonoBehaviour
             {
                 isMoving = false;
             }
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * maxRotateSpeed);
-            if ((moveTargetPosition - transform.position).sqrMagnitude < stopEpsilon * stopEpsilon && isMoving)
+            owner.transform.rotation = Quaternion.Slerp(owner.transform.rotation, targetRotation, dt * maxRotateSpeed);
+            if ((moveTargetPosition - owner.transform.position).sqrMagnitude < stopEpsilon * stopEpsilon && isMoving)
             {
                 StopMove();
             }
@@ -80,5 +81,10 @@ public class NavigationModule: MonoBehaviour
     public void SetMoveAlgorithm(IMoveAlgorithm algorithm)
     {
         moveAlgorithm = algorithm;
+    }
+
+    public string GetName()
+    {
+        return "NavigationModule";
     }
 }
