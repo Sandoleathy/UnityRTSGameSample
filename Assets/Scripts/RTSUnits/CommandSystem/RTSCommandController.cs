@@ -26,13 +26,17 @@ public class RTSCommandController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.S)){
             List<RTSUnit> selectedUnits = selector.GetSelectedUnits();
             foreach(RTSUnit unit in selectedUnits){
-                if(unit.militaryModule != null)unit.militaryModule.isCeaseFire = true;
+                ChangeFireStateCommand cmd = new(true);
+                unit.EnqueueCommand(cmd);
+                // if(unit.militaryModule != null)unit.militaryModule.isCeaseFire = true;
                 Debug.Log($"{unit.name} 停止开火");
             }
         }else if(Input.GetKeyDown(KeyCode.G)){
             List<RTSUnit> selectedUnits = selector.GetSelectedUnits();
             foreach(RTSUnit unit in selectedUnits){
-                if(unit.militaryModule != null)unit.militaryModule.isCeaseFire = false;
+                ChangeFireStateCommand cmd = new(false);
+                unit.EnqueueCommand(cmd);
+                // if(unit.militaryModule != null)unit.militaryModule.isCeaseFire = false;
                 Debug.Log($"{unit.name} 开始开火");
             }
         }
@@ -53,10 +57,12 @@ public class RTSCommandController : MonoBehaviour
     private void IssueMoveCommand(Vector3 target)
     {
         List<RTSUnit> selectedUnits = selector.GetSelectedUnits();
+        MoveCommand moveCommand = new MoveCommand(target);
 
         foreach (RTSUnit unit in selectedUnits)
         {
-            if(unit.navigationModule != null) unit.navigationModule.MoveTo(target);
+            unit.EnqueueCommand(moveCommand);
+            // if(unit.navigationModule != null) unit.navigationModule.MoveTo(target);
         }
     }
 }

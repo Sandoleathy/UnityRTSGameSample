@@ -157,7 +157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 083845bb3db71c64ab80efac63fdfd2b, type: 3}
       propertyPath: m_Name
-      value: tankBody
+      value: DefaultTank
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 083845bb3db71c64ab80efac63fdfd2b, type: 3}
       propertyPath: m_Layer
@@ -186,15 +186,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 083845bb3db71c64ab80efac63fdfd2b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3915570043187928412}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 083845bb3db71c64ab80efac63fdfd2b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1121218470204090470}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 083845bb3db71c64ab80efac63fdfd2b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1835500652891665936}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 083845bb3db71c64ab80efac63fdfd2b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 401606585902665667}
   m_SourcePrefab: {fileID: 100100000, guid: 083845bb3db71c64ab80efac63fdfd2b, type: 3}
 --- !u!4 &1716295432856999862 stripped
 Transform:
@@ -233,9 +224,6 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 57a931f2952f1104cac04b77508396d9, type: 2}
   unitName: 
   canAttackWhileMove: 0
-  healthModule: {fileID: 1121218470204090470}
-  militaryModule: {fileID: 1835500652891665936}
-  navigationModule: {fileID: 401606585902665667}
   camp: 0
   isAlive: 1
 --- !u!195 &8418014890014726181
@@ -281,51 +269,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.4, y: 0.9999998, z: 3.6}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1121218470204090470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2061049075328961804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23f7540b094761c43ae605e6f1357e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentHealth: 0
-  maxHealth: 0
-  isAlive: 0
---- !u!114 &1835500652891665936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2061049075328961804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31aff6a89db50d444867426ea19de3bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weapons: []
-  turrents:
-  - {fileID: 1501218468683075448}
-  isCeaseFire: 1
---- !u!114 &401606585902665667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2061049075328961804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ef6c75c0abffa4a95466ce9adf0e5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isMoving: 0
-  maxMoveSpeed: 0
-  targetSpeed: 0
-  stopEpsilon: 0.5
-  maxRotateSpeed: 0

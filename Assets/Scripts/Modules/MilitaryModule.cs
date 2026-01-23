@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MilitaryModule : MonoBehaviour{
+public class MilitaryModule : IModule, IUpdatableModule
+{
     public List<Weapon> weapons;
     public List<Turrent> turrents;
 
-    public bool isCeaseFire;
+    private bool isOpenFire;
 
     private IAlertAlgorithm alertAlgorithm;
 
@@ -16,7 +17,12 @@ public class MilitaryModule : MonoBehaviour{
 
     public void Init(RTSUnit owner){
         this.owner = owner;
-        navigationModule = owner.navigationModule;
+        navigationModule = owner.moduleContainer.Get<NavigationModule>();
+        alertAlgorithm = owner.alertAlgorithm;
+
+        // 咋还自动获取武器了
+        weapons = new List<Weapon>(owner.GetComponentsInChildren<Weapon>());
+        turrents = new List<Turrent>(owner.GetComponentsInChildren<Turrent>());
     }
     public void SetAlertAlgorithm(IAlertAlgorithm algorithm)
     {
@@ -36,7 +42,7 @@ public class MilitaryModule : MonoBehaviour{
         else
         {
             // 为NavigationModule设置旋转方向
-            if(navigationModule != null) navigationModule.SetTargetRotation(Quaternion.LookRotation(enemy.transform.position - transform.position, Vector3.up));
+            if(navigationModule != null) navigationModule.SetTargetRotation(Quaternion.LookRotation(enemy.transform.position - owner.transform.position, Vector3.up));
         }
         if(weapons.Count > 0){
             foreach(Weapon weapon in weapons){
@@ -49,11 +55,11 @@ public class MilitaryModule : MonoBehaviour{
         // TODO: 攻击实现
     }
 
-    void Update()
+    public void Tick(float dt)
     {
         RTSUnit enemy = null;
         // 检测敌人
-        if(!isCeaseFire){
+        if(!isOpenFire){
             enemy = alertAlgorithm?.DetectEnemy(owner);
         }
         //如果发现敌人并且单位是静止的，就可以攻击
@@ -67,6 +73,15 @@ public class MilitaryModule : MonoBehaviour{
             currentTargetEnemy = enemy;
             AttemptToAttack(currentTargetEnemy);
         }
+    }
+    public string GetName()
+    {
+        return "MilitaryModule";
+    }
+
+    public void SetIsOpenFire(bool isOpenFire)
+    {
+        this.isOpenFire = isOpenFire;
     }
 
 }

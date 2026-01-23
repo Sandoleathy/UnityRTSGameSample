@@ -187,7 +187,10 @@ PrefabInstance:
       propertyPath: isCeaseFire
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4693690434356655861, guid: dc98304ddd0f2be478322be8586a66cd, type: 3}
+    - {fileID: 6267005270319075703, guid: dc98304ddd0f2be478322be8586a66cd, type: 3}
+    - {fileID: 6904552194645379792, guid: dc98304ddd0f2be478322be8586a66cd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -611,7 +614,10 @@ PrefabInstance:
       propertyPath: isCeaseFire
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6267005270319075703, guid: dc98304ddd0f2be478322be8586a66cd, type: 3}
+    - {fileID: 6904552194645379792, guid: dc98304ddd0f2be478322be8586a66cd, type: 3}
+    - {fileID: 4693690434356655861, guid: dc98304ddd0f2be478322be8586a66cd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -806,7 +812,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: tankBody
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 401606585902665667, guid: 6e88157608b5f7d418180de1cfff2631, type: 3}
+    - {fileID: 1835500652891665936, guid: 6e88157608b5f7d418180de1cfff2631, type: 3}
+    - {fileID: 1121218470204090470, guid: 6e88157608b5f7d418180de1cfff2631, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
