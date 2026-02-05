@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MilitaryModule : IModule, IUpdatableModule
+public class MilitaryModule : MonoBehaviour , IModule, IUpdatableModule
 {
+    private bool isEnable;
     public List<Weapon> weapons;
     public List<Turrent> turrents;
 
@@ -83,5 +84,13 @@ public class MilitaryModule : IModule, IUpdatableModule
     {
         this.isOpenFire = isOpenFire;
     }
-
+    public void Disable()
+    {
+        isEnable = false;
+    }
+    public void Enable()
+    {
+        isEnable = true;
+    }
+    public bool IsEnable(){return isEnable;}
 }

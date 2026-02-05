@@ -2,12 +2,13 @@
 using System.Collections;
 using UnityEngine;
 
-public class HealthModule : IModule
+public class HealthModule : MonoBehaviour, IModule
 {
     public float currentHealth;
     public float maxHealth;
     private RTSUnit owner;
     public bool isAlive;
+    private bool isEnable;
 
     private Renderer unitRenderer;
     private Color originalColor;
@@ -26,6 +27,7 @@ public class HealthModule : IModule
 
     public void Init(RTSUnit owner)
     {
+        isEnable = true;
         maxHealth = owner.config.maxHP;
         currentHealth = maxHealth;
         this.owner = owner;
@@ -62,4 +64,13 @@ public class HealthModule : IModule
     {
         return "HealthModule";
     }
+    public void Disable()
+    {
+        isEnable = false;
+    }
+    public void Enable()
+    {
+        isEnable = true;
+    }
+    public bool IsEnable(){return isEnable;}
 }

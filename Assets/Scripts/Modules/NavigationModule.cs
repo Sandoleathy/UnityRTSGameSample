@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NavigationModule: IModule, IUpdatableModule
+public class NavigationModule: MonoBehaviour, IModule, IUpdatableModule
 {
     private RTSUnit owner;
     public bool isMoving = false;
@@ -11,6 +11,7 @@ public class NavigationModule: IModule, IUpdatableModule
     protected Quaternion targetRotation;
     public float stopEpsilon = 0.5f;
     public float maxRotateSpeed;
+    private bool isEnable;
 
 
     public void Init(RTSUnit owner)
@@ -87,4 +88,13 @@ public class NavigationModule: IModule, IUpdatableModule
     {
         return "NavigationModule";
     }
+    public void Disable()
+    {
+        isEnable = false;
+    }
+    public void Enable()
+    {
+        isEnable = true;
+    }
+    public bool IsEnable(){return isEnable;}
 }

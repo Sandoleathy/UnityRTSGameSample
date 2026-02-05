@@ -4,10 +4,12 @@ using System.Collections.Generic;
 
 public class RTSUnitModuleContainer
 {
+    private RTSUnit root;
     private Dictionary<Type, IModule> modules;
     private List<IUpdatableModule> updatableModules;
-    public RTSUnitModuleContainer()
+    public RTSUnitModuleContainer(RTSUnit root)
     {
+        this.root = root;
         modules = new Dictionary<Type, IModule>();
         updatableModules = new List<IUpdatableModule>();
     }
