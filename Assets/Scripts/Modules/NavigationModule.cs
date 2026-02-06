@@ -11,7 +11,8 @@ public class NavigationModule: MonoBehaviour, IModule, IUpdatableModule
     protected Quaternion targetRotation;
     public float stopEpsilon = 0.5f;
     public float maxRotateSpeed;
-    private bool isEnable;
+    [SerializeField]
+    private bool isEnable = true;
 
 
     public void Init(RTSUnit owner)

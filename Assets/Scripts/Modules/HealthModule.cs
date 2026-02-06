@@ -8,7 +8,8 @@ public class HealthModule : MonoBehaviour, IModule
     public float maxHealth;
     private RTSUnit owner;
     public bool isAlive;
-    private bool isEnable;
+    [SerializeField]
+    private bool isEnable = true;
 
     private Renderer unitRenderer;
     private Color originalColor;

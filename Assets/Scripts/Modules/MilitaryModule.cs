@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class MilitaryModule : MonoBehaviour , IModule, IUpdatableModule
 {
-    private bool isEnable;
+    [SerializeField]
+    private bool isEnable = true;
     public List<Weapon> weapons;
     public List<Turrent> turrents;
 
