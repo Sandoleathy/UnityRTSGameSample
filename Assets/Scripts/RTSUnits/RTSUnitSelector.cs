@@ -107,7 +107,6 @@ public class RTSUnitSelector : MonoBehaviour
         {
             selectedUnits.Add(unit);
             unit.OnSelected();
-            // 可以在这里加高亮效果
         }
     }
 
@@ -134,6 +133,20 @@ public class RTSUnitSelector : MonoBehaviour
             Utils.DrawScreenRect(rect, selectionBoxColor);
             Utils.DrawScreenRectBorder(rect, 2, Color.green);
         }
+    }
+    public bool IsClickingOnUnit(Vector3 mousePos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, selectorLayer))
+        {
+            RTSUnit unit = hit.collider.GetComponent<RTSUnit>();
+            if (unit != null)
+            {
+                // 选中单位
+                return true;   
+            }
+        }
+        return false;
     }
 }
 
