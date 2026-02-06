@@ -18,8 +18,6 @@ public class NavigationModule: MonoBehaviour, IModule, IUpdatableModule
     public void Init(RTSUnit owner)
     {
         this.owner = owner;
-        maxMoveSpeed = owner.config.maxMoveSpeed;
-        maxRotateSpeed = owner.config.maxRotateSpeed;
         moveAlgorithm = owner.moveAlgorithm;
     }
     public void MoveTo(Vector3 destination, float speed = -1f)
