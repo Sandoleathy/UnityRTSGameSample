@@ -4,11 +4,24 @@ using System.Collections.Generic;
 
 public class RTSUnitModuleContainer
 {
-    private Dictionary<Type, IModule> modules = new();
+    private RTSUnit root;
+    private Dictionary<Type, IModule> modules;
+    private List<IUpdatableModule> updatableModules;
+    public RTSUnitModuleContainer(RTSUnit root)
+    {
+        this.root = root;
+        modules = new Dictionary<Type, IModule>();
+        updatableModules = new List<IUpdatableModule>();
+    }
+
 
     public void Add(IModule module)
     {
         modules[module.GetType()] = module;   
+        if (module is IUpdatableModule updatableModule)
+        {
+            updatableModules.Add(updatableModule);
+        }
     }
 
     /// <summary>
@@ -27,5 +40,13 @@ public class RTSUnitModuleContainer
             names.Add(module.GetName());
         }
         return names;
+    }
+
+    public void Tick(float dt)
+    {
+        foreach (var module in updatableModules)
+        {
+            module.Tick(dt);
+        }
     }
 }

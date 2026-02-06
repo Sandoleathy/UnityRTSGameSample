@@ -6,14 +6,14 @@ public class RTSUnitConfig: ScriptableObject{
     public string id;
     public string unitName;
     [Header("属性")]
-    public float maxHP;
-    public float maxMoveSpeed;
-    public float maxRotateSpeed;
     public bool canAttackWhileMove;
     public float viewRange;
     public float alertRange;
+    public float productTime;
     [Header("单位类型")]
     public RTSUnitType type;
+    [Header("预制件")]
+    public GameObject prefab;
 
 }
 

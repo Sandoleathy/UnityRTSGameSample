@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fbcf564673b2f34cb9ba6dd0bfd7735, type: 3}
   m_Name: Default
   m_EditorClassIdentifier: 
-  id: 
-  turrentName: 
+  id: default-turrent
+  turrentName: "\u8C03\u8BD5\u70AE\u5854"
   maxRotateSpeed: 30
-  weapon: {fileID: 0}

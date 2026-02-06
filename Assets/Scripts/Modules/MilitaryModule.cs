@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MilitaryModule : IModule, IUpdatableModule
+public class MilitaryModule : MonoBehaviour , IModule, IUpdatableModule
 {
+    [SerializeField]
+    private bool isEnable = true;
     public List<Weapon> weapons;
     public List<Turrent> turrents;
 
@@ -46,7 +48,7 @@ public class MilitaryModule : IModule, IUpdatableModule
         }
         if(weapons.Count > 0){
             foreach(Weapon weapon in weapons){
-                if(weapon.Attack(enemy)) Debug.Log($"{owner.unitName} 使用 {weapon.name} 对 {enemy.unitName} 发起攻击！");   
+                if(weapon.Attack(enemy)){} //Debug.Log($"{owner.unitName} 使用 {weapon.name} 对 {enemy.unitName} 发起攻击！");   
             }
         }
         else{
@@ -83,5 +85,13 @@ public class MilitaryModule : IModule, IUpdatableModule
     {
         this.isOpenFire = isOpenFire;
     }
-
+    public void Disable()
+    {
+        isEnable = false;
+    }
+    public void Enable()
+    {
+        isEnable = true;
+    }
+    public bool IsEnable(){return isEnable;}
 }

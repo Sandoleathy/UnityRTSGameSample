@@ -2,12 +2,14 @@
 using System.Collections;
 using UnityEngine;
 
-public class HealthModule : IModule
+public class HealthModule : MonoBehaviour, IModule
 {
     public float currentHealth;
     public float maxHealth;
     private RTSUnit owner;
     public bool isAlive;
+    [SerializeField]
+    private bool isEnable = true;
 
     private Renderer unitRenderer;
     private Color originalColor;
@@ -26,7 +28,7 @@ public class HealthModule : IModule
 
     public void Init(RTSUnit owner)
     {
-        maxHealth = owner.config.maxHP;
+        isEnable = true;
         currentHealth = maxHealth;
         this.owner = owner;
         isAlive = true;
@@ -62,4 +64,13 @@ public class HealthModule : IModule
     {
         return "HealthModule";
     }
+    public void Disable()
+    {
+        isEnable = false;
+    }
+    public void Enable()
+    {
+        isEnable = true;
+    }
+    public bool IsEnable(){return isEnable;}
 }

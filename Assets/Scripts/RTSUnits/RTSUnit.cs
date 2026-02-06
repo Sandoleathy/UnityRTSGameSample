@@ -12,7 +12,7 @@ public class RTSUnit : MonoBehaviour
     public bool canAttackWhileMove;
     [Header("模块")]
     public RTSUnitModuleContainer moduleContainer;
-    private List<IUpdatableModule> updatableModules;
+    public List<string> moduleNames;
     [Header("指令系统")]
     private List<ICommand> commandQueue;
     
@@ -31,8 +31,7 @@ public class RTSUnit : MonoBehaviour
     void Start()
     {   
         // 初始化模块容器
-        moduleContainer = new RTSUnitModuleContainer();
-        updatableModules = new List<IUpdatableModule>();
+        moduleContainer = new RTSUnitModuleContainer(this);
 
         // 初始化指令队列
         commandQueue = new List<ICommand>();
@@ -46,9 +45,29 @@ public class RTSUnit : MonoBehaviour
         canAttackWhileMove = config.canAttackWhileMove;
 
         // 临时手动增加模块，之后从配置文件中加载
-        AddModule(new HealthModule());
-        AddModule(new NavigationModule());   
-        AddModule(new MilitaryModule());
+        // AddModule(new HealthModule());
+        // AddModule(new NavigationModule());   
+        // AddModule(new MilitaryModule());
+
+        //所有模块都继承了MonoBehavior，可以直接挂载到游戏物体上，由RTSUnit统一扫描并送入容器进行管理
+        ScanModules();
+
+        moduleNames = moduleContainer.GetModuleNames();
+    }
+    //扫描并将模块挂载到容器中统一管理
+    private void ScanModules()
+    {
+        IModule[] modules = GetComponents<IModule>();
+        Debug.Log(modules.Length);
+        //先都进入容器，再初始化，防止出现NullReferenceException
+        foreach(var module in modules)
+        {
+            moduleContainer.Add(module);
+        }
+        foreach(var module in modules)
+        {
+            module.Init(this);   
+        }
     }
     public void EnqueueCommand(ICommand command)
     {
@@ -73,20 +92,13 @@ public class RTSUnit : MonoBehaviour
         // 暂时每帧执行一个指令
         ExecuteCommand();
 
-        // 更新模块
-        foreach (IUpdatableModule module in updatableModules)
-        {
-            module.Tick(Time.deltaTime);
-        }
+        moduleContainer.Tick(Time.deltaTime);
     }
 
     private void AddModule(IModule module)
     {
         moduleContainer.Add(module);
         module.Init(this);
-
-        // 加入需要每帧刷新的模块
-    if (module is IUpdatableModule updatable) updatableModules.Add(updatable);
     }
 
     /// <summary>

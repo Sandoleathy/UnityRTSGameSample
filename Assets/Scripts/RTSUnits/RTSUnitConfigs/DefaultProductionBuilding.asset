@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d53a38e383690c49b1fafee52dd066a, type: 3}
-  m_Name: defaultSoldier
+  m_Name: DefaultProductionBuilding
   m_EditorClassIdentifier: 
-  id: 0
+  id: 
   unitName: 
   canAttackWhileMove: 0
-  viewRange: 8
-  alertRange: 5
+  viewRange: 0
+  alertRange: 0
   productTime: 0
   type: 0
-  prefab: {fileID: 5081189858716407034, guid: dc98304ddd0f2be478322be8586a66cd, type: 3}
+  prefab: {fileID: 0}
