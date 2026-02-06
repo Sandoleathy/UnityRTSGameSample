@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   unitName: "\u5E26\u70AE\u5854\u5355\u4F4D"
-  maxHP: 250
-  maxMoveSpeed: 6
-  maxRotateSpeed: 5
   canAttackWhileMove: 1
   viewRange: 10
   alertRange: 10
+  productTime: 0
   type: 0
+  prefab: {fileID: 2061049075328961804, guid: 6e88157608b5f7d418180de1cfff2631, type: 3}

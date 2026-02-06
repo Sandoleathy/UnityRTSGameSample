@@ -48,7 +48,7 @@ public class MilitaryModule : MonoBehaviour , IModule, IUpdatableModule
         }
         if(weapons.Count > 0){
             foreach(Weapon weapon in weapons){
-                if(weapon.Attack(enemy)) Debug.Log($"{owner.unitName} 使用 {weapon.name} 对 {enemy.unitName} 发起攻击！");   
+                if(weapon.Attack(enemy)){} //Debug.Log($"{owner.unitName} 使用 {weapon.name} 对 {enemy.unitName} 发起攻击！");   
             }
         }
         else{

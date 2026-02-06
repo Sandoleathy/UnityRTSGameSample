@@ -25,7 +25,7 @@ public class Weapon : MonoBehaviour {
         }
         switch(weaponConfig.attackType){
             case AttackType.SingleDirect:
-                SingleDirectAttack(target);
+                if(!SingleDirectAttack(target)) return false;
                 break;
             case AttackType.SingleTrack:
                 break;
@@ -46,7 +46,7 @@ public class Weapon : MonoBehaviour {
         Debug.Log($"{name} 攻击 {target.name}");
         return true;
     }
-    private void SingleDirectAttack(RTSUnit target){
+    private bool SingleDirectAttack(RTSUnit target){
         float distance = Vector3.Distance(transform.position, target.transform.position);
         if(distance < weaponConfig.attackRange){
             
@@ -55,9 +55,10 @@ public class Weapon : MonoBehaviour {
             healthModule?.OnTakeDamage(weaponConfig.damage);
 
             Debug.Log($"{name} 攻击 {target.name} 造成了 {weaponConfig.damage} 伤害");
+            return true;
         }else{
             Debug.Log($"{name} 攻击 {target.name} 距离太远，无法攻击");
-            return;
+            return false;
         }
     }
 }

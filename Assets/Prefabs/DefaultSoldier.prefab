@@ -15,6 +15,9 @@ GameObject:
   - component: {fileID: 1483227503686132970}
   - component: {fileID: 6463641080272423859}
   - component: {fileID: 3329509354669461574}
+  - component: {fileID: 6996422330892186189}
+  - component: {fileID: 198629116055096286}
+  - component: {fileID: 5086342422203269319}
   m_Layer: 7
   m_Name: DefaultSoldier
   m_TagString: RTSControlableUnit
@@ -158,8 +161,58 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 280b66e9f1ccac74688db9175d20c179, type: 2}
   unitName: 
   canAttackWhileMove: 0
+  moduleNames: []
   camp: 0
   isAlive: 1
+--- !u!114 &6996422330892186189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5081189858716407034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f7540b094761c43ae605e6f1357e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 100
+  maxHealth: 100
+  isAlive: 0
+  isEnable: 1
+--- !u!114 &198629116055096286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5081189858716407034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25ef6c75c0abffa4a95466ce9adf0e5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMoving: 0
+  maxMoveSpeed: 10
+  targetSpeed: 0
+  stopEpsilon: 0.5
+  maxRotateSpeed: 5
+  isEnable: 1
+--- !u!114 &5086342422203269319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5081189858716407034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31aff6a89db50d444867426ea19de3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnable: 1
+  weapons: []
+  turrents: []
 --- !u!1001 &3232820638336410296
 PrefabInstance:
   m_ObjectHideFlags: 0

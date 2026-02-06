@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: defaultSoldier
   m_EditorClassIdentifier: 
   id: 0
-  name: Soldier
-  maxHP: 100
-  maxMoveSpeed: 5
-  maxRotateSpeed: 10
+  unitName: 
   canAttackWhileMove: 0
   viewRange: 8
   alertRange: 5
+  productTime: 0
   type: 0
+  prefab: {fileID: 5081189858716407034, guid: dc98304ddd0f2be478322be8586a66cd, type: 3}

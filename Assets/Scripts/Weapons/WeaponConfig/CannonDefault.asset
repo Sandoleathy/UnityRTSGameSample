@@ -15,6 +15,6 @@ MonoBehaviour:
   id: 1
   name: "\u52A0\u519C\u70AE"
   damage: 30
-  attackRange: 7
+  attackRange: 10
   attackSpeed: 0.7
   attackType: 0
