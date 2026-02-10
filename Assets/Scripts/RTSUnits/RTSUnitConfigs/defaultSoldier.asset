@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d53a38e383690c49b1fafee52dd066a, type: 3}
   m_Name: defaultSoldier
   m_EditorClassIdentifier: 
-  id: 0
-  unitName: 
+  id: default-solider
+  unitName: "\u57FA\u7840\u58EB\u5175"
   canAttackWhileMove: 0
   viewRange: 8
   alertRange: 5
-  productTime: 0
+  productTime: 3
   type: 0
   prefab: {fileID: 5081189858716407034, guid: dc98304ddd0f2be478322be8586a66cd, type: 3}
