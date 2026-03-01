@@ -66,7 +66,7 @@ public class MilitaryModule : MonoBehaviour , IModule, IUpdatableModule
         }
         //如果发现敌人并且单位是静止的，就可以攻击
         //如果允许移动攻击（canAttackWhileMove == true），那就算在移动也可以攻击。
-        if (enemy != null && navigationModule && (!navigationModule.isMoving || owner.canAttackWhileMove))
+        if (enemy != null && (navigationModule == null || !navigationModule.isMoving || owner.canAttackWhileMove))
         {
             if(!enemy.isAlive){
                 currentTargetEnemy = null;
