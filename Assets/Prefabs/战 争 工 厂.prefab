@@ -18,9 +18,9 @@ GameObject:
   - component: {fileID: 7695155389926652407}
   - component: {fileID: 1990742120432536546}
   - component: {fileID: 20092245200579892}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: "\u6218 \u4E89 \u5DE5 \u5382"
-  m_TagString: Untagged
+  m_TagString: RTSControlableUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065042156843898265}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c67aae641e19e84e88b9b290cedd1d4, type: 3}
   m_Name: 

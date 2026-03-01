@@ -22,9 +22,9 @@ public class MilitaryModule : MonoBehaviour , IModule, IUpdatableModule
         navigationModule = owner.moduleContainer.Get<NavigationModule>();
         alertAlgorithm = owner.alertAlgorithm;
 
-        // 咋还自动获取武器了
-        weapons = new List<Weapon>(owner.GetComponentsInChildren<Weapon>());
-        turrents = new List<Turrent>(owner.GetComponentsInChildren<Turrent>());
+        // 一定要手动配置武器
+        // weapons = new List<Weapon>();
+        // turrents = new List<Turrent>();
     }
     public void SetAlertAlgorithm(IAlertAlgorithm algorithm)
     {
@@ -66,7 +66,7 @@ public class MilitaryModule : MonoBehaviour , IModule, IUpdatableModule
         }
         //如果发现敌人并且单位是静止的，就可以攻击
         //如果允许移动攻击（canAttackWhileMove == true），那就算在移动也可以攻击。
-        if (enemy != null && (!navigationModule.isMoving || owner.canAttackWhileMove))
+        if (enemy != null && (navigationModule == null || !navigationModule.isMoving || owner.canAttackWhileMove))
         {
             if(!enemy.isAlive){
                 currentTargetEnemy = null;

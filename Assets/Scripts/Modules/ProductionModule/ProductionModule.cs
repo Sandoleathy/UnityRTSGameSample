@@ -8,7 +8,7 @@ public class ProductionModule : MonoBehaviour, IModule, IUpdatableModule
     private bool isEnable = true;
     private Queue<RTSUnitConfig> productQueue;
 
-    private float tickCounter = 0f;
+    private float tickCounter = 0f; //当前生产单位的倒计时计时器
     private float currentUnitProductTime;
     public void Init(RTSUnit owner)
     {
@@ -55,6 +55,15 @@ public class ProductionModule : MonoBehaviour, IModule, IUpdatableModule
             ProduceUnit();
         }
     }    
+    public Queue<RTSUnitConfig> GetProductQueue()
+    {
+        return productQueue;
+    }
+    // 获取生产单位倒计时
+    public float getUnitProducingCountDown()
+    {
+        return currentUnitProductTime - tickCounter;
+    }
 
     public void Disable()
     {

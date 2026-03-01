@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe5066334491af94baf99ab9e52308ec, type: 3}
-  m_Name: DefaultBuilding
+  m_Script: {fileID: 11500000, guid: 3fbcf564673b2f34cb9ba6dd0bfd7735, type: 3}
+  m_Name: "\u673A\u67AA\u5854"
   m_EditorClassIdentifier: 
   id: 
-  buildingName: 
-  maxHP: 0
-  buildTime: 0
-  turrents: []
-  weapons: []
+  turrentName: 
+  maxRotateSpeed: 0

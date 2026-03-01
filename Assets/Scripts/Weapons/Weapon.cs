@@ -43,7 +43,7 @@ public class Weapon : MonoBehaviour {
             currentCooldownTime = 1/weaponConfig.attackSpeed;
             isCoolingDown = true;
         }
-        Debug.Log($"{name} 攻击 {target.name}");
+        // Debug.Log($"{name} 攻击 {target.name}");
         return true;
     }
     private bool SingleDirectAttack(RTSUnit target){

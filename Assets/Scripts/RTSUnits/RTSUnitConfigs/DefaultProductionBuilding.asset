@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d53a38e383690c49b1fafee52dd066a, type: 3}
   m_Name: DefaultProductionBuilding
   m_EditorClassIdentifier: 
-  id: 
-  unitName: 
+  id: default-production-building
+  unitName: "\u57FA\u7840\u751F\u4EA7\u5EFA\u7B51"
   canAttackWhileMove: 0
   viewRange: 0
   alertRange: 0
-  productTime: 0
+  productTime: 30
   type: 0
-  prefab: {fileID: 0}
+  prefab: {fileID: 1065042156843898265, guid: e97f3fe2a9243a44da5551b80e11db74, type: 3}
