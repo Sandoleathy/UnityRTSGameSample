@@ -12,6 +12,9 @@ public class RTSUnitSelector : MonoBehaviour
 
     private List<RTSUnit> selectedUnits = new List<RTSUnit>();
 
+    // 生产单位调试菜单
+    public ProductionDebugPanel productionPanel;
+
     void Update()
     {
         HandleMouseInput();
@@ -142,6 +145,17 @@ public class RTSUnitSelector : MonoBehaviour
             RTSUnit unit = hit.collider.GetComponent<RTSUnit>();
             if (unit != null)
             {
+                // 调试面板
+                productionPanel = unit.GetComponent<ProductionDebugPanel>();
+                if(productionPanel != null)
+                {
+                    productionPanel.Open(unit);
+                }
+                else
+                {
+                    productionPanel.Close();
+                }
+
                 // 选中单位
                 return true;   
             }
