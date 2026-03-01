@@ -151,10 +151,6 @@ public class RTSUnitSelector : MonoBehaviour
                 {
                     productionPanel.Open(unit);
                 }
-                else
-                {
-                    productionPanel.Close();
-                }
 
                 // 选中单位
                 return true;   
