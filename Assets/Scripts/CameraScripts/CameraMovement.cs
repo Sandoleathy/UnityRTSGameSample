@@ -7,6 +7,7 @@ public class RTSCameraController : MonoBehaviour
     public float edgeSize = 20f;           // 鼠标到屏幕边缘的判定宽度
     public float acceleration = 5f;        // 移动加速度（平滑过渡）
     private Vector3 currentVelocity;       // 当前平滑速度
+    public bool isMouseMovingCamera = false; // 是否正在通过鼠标移动摄像机
 
     [Header("旋转相关")]
     public float rotateSpeed = 100f;       // 鼠标拖拽旋转速度
@@ -35,10 +36,13 @@ public class RTSCameraController : MonoBehaviour
         // 屏幕边缘检测
         Vector3 mousePos = Input.mousePosition;
 
-        if (mousePos.x < edgeSize) targetDir += Vector3.left;
-        if (mousePos.x > Screen.width - edgeSize) targetDir += Vector3.right;
-        if (mousePos.y < edgeSize) targetDir += Vector3.back;
-        if (mousePos.y > Screen.height - edgeSize) targetDir += Vector3.forward;
+        if (isMouseMovingCamera)
+        {
+            if (mousePos.x < edgeSize) targetDir += Vector3.left;
+            if (mousePos.x > Screen.width - edgeSize) targetDir += Vector3.right;
+            if (mousePos.y < edgeSize) targetDir += Vector3.back;
+            if (mousePos.y > Screen.height - edgeSize) targetDir += Vector3.forward;
+        }
 
         // WASD 键盘控制
         float h = Input.GetAxis("Horizontal"); // A,D
