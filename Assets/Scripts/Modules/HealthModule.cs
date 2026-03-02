@@ -53,6 +53,7 @@ public class HealthModule : MonoBehaviour, IModule
     public void OnDead()
     {
         isAlive = false;
+        owner.isAlive = false;
         owner.gameObject.layer = LayerMask.NameToLayer("DeadLayer");
         //TODO: 死亡效果
         Debug.Log($"{owner.unitName} HP耗尽, 死亡了!");

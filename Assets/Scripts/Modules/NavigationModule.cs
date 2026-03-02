@@ -40,6 +40,8 @@ public class NavigationModule: MonoBehaviour, IModule, IUpdatableModule
 
     public void Tick(float dt)
     {
+        if(!owner.isAlive) return;
+        
         if (moveAlgorithm != null && moveTargetPosition != null)
         {
             Vector3 delta = moveAlgorithm.GetMoveDelta(

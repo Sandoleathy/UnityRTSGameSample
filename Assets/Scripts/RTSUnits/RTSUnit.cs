@@ -95,12 +95,6 @@ public class RTSUnit : MonoBehaviour
         moduleContainer.Tick(Time.deltaTime);
     }
 
-    private void AddModule(IModule module)
-    {
-        moduleContainer.Add(module);
-        module.Init(this);
-    }
-
     /// <summary>
     /// 单位被鼠标点击选中
     /// </summary>
