@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d53a38e383690c49b1fafee52dd066a, type: 3}
   m_Name: MachineGunTurrent
   m_EditorClassIdentifier: 
-  id: 
-  unitName: 
+  id: Machine-Gun-Turrent
+  unitName: "\u673A\u67AA\u5854"
   canAttackWhileMove: 0
-  viewRange: 0
-  alertRange: 0
-  productTime: 0
+  viewRange: 7
+  alertRange: 7
+  productTime: 15
   type: 0
   prefab: {fileID: 0}
