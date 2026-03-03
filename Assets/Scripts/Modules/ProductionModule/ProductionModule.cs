@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Resources;
 using UnityEngine;
 
 public class ProductionModule : MonoBehaviour, IModule, IUpdatableModule
@@ -9,7 +10,9 @@ public class ProductionModule : MonoBehaviour, IModule, IUpdatableModule
     private Queue<RTSUnitConfig> productQueue;
 
     private float tickCounter = 0f; //当前生产单位的倒计时计时器
-    private float currentUnitProductTime;
+    //private float currentUnitProductTime;
+    private RTSUnitConfig currentProducingUnit;
+    private bool consoleMessageFlag = false; // 用于控制资源不足时的日志输出频率
     public void Init(RTSUnit owner)
     {
         this.owner = owner;
@@ -22,7 +25,7 @@ public class ProductionModule : MonoBehaviour, IModule, IUpdatableModule
         //第一个单位入队时设置生产时间
         if(productQueue.Count == 1)
         {
-            currentUnitProductTime = unit.productTime;
+            currentProducingUnit = unit;
         }
     }    
     // 队头的单位生产出来
@@ -38,7 +41,7 @@ public class ProductionModule : MonoBehaviour, IModule, IUpdatableModule
         // 当队列不为空时，取下一个队头元素的生产时间，并计算实际的生产时间
         if(productQueue.Count > 0)
         {
-            currentUnitProductTime = productQueue.Peek().productTime;
+            currentProducingUnit = productQueue.Peek();
         }
     }
 
@@ -47,14 +50,44 @@ public class ProductionModule : MonoBehaviour, IModule, IUpdatableModule
         // 队列为空时不执行任何操作
         if(productQueue.Count == 0) return;
 
+        // 计算资源消耗
+        if(!ComputeResourceConsumeInTick(dt, owner.ownerPlayer.battleResourceSystem))
+        {
+            // 资源不足，生产暂停
+            return;
+        }
         // 生产队列不为空，计时器累计
         tickCounter += dt;
         // 计时器大于生产时间，单位生产
-        if(tickCounter >= currentUnitProductTime)
+        if(tickCounter >= currentProducingUnit.productTime)
         {
             ProduceUnit();
         }
     }    
+    private bool ComputeResourceConsumeInTick(float dt, BattleResourceSystem battleResourceSystem)
+    {
+        float ConsumeFraction = dt / currentProducingUnit.productTime;
+        float fundConsume = currentProducingUnit.fundCost * ConsumeFraction;
+        float oreConsume = currentProducingUnit.oreCost * ConsumeFraction;
+
+        if(battleResourceSystem.funds >= fundConsume && battleResourceSystem.refinedOre >= oreConsume)
+        {
+            battleResourceSystem.funds -= fundConsume;
+            battleResourceSystem.refinedOre -= oreConsume;
+        }
+        else
+        {
+            // 资源不足，暂停生产
+            if(!consoleMessageFlag)
+            {
+                Debug.Log($"[Production] 资源不足，暂停生产 {currentProducingUnit.unitName}");
+                consoleMessageFlag = true;
+            }
+            // 应该通知系统资源不足
+            return false;
+        }
+        return true;
+    }
     public Queue<RTSUnitConfig> GetProductQueue()
     {
         return productQueue;
@@ -62,7 +95,7 @@ public class ProductionModule : MonoBehaviour, IModule, IUpdatableModule
     // 获取生产单位倒计时
     public float getUnitProducingCountDown()
     {
-        return currentUnitProductTime - tickCounter;
+        return currentProducingUnit.productTime - tickCounter;
     }
 
     public void Disable()
