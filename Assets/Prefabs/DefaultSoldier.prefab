@@ -163,6 +163,7 @@ MonoBehaviour:
   canAttackWhileMove: 0
   moduleNames: []
   camp: 0
+  ownerPlayer: {fileID: 0}
   isAlive: 1
 --- !u!114 &6996422330892186189
 MonoBehaviour:
@@ -211,7 +212,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnable: 1
-  weapons: []
+  weapons:
+  - {fileID: 1962666346644487227}
   turrents: []
 --- !u!1001 &3232820638336410296
 PrefabInstance:

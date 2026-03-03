@@ -235,6 +235,7 @@ MonoBehaviour:
   canAttackWhileMove: 0
   moduleNames: []
   camp: 0
+  ownerPlayer: {fileID: 0}
   isAlive: 1
 --- !u!195 &8418014890014726181
 NavMeshAgent:
@@ -309,7 +310,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnable: 1
   weapons: []
-  turrents: []
+  turrents:
+  - {fileID: 1501218468683075448}
 --- !u!114 &1415576476142950163
 MonoBehaviour:
   m_ObjectHideFlags: 0
