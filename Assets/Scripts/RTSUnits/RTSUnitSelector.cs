@@ -99,7 +99,7 @@ public class RTSUnitSelector : MonoBehaviour
             if (screenPos.x >= min.x && screenPos.x <= max.x &&
                 screenPos.y >= min.y && screenPos.y <= max.y)
             {
-                SelectUnit(unit);
+                if(unit.tag != "Building") SelectUnit(unit);    // 框选时不选中建筑
             }
         }
     }

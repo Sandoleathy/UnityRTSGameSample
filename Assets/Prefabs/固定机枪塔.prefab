@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 988a136fa209e88449fa355a389149d3, type: 3}
       propertyPath: m_TagString
-      value: RTSControlableUnit
+      value: Building
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -194,6 +194,7 @@ MonoBehaviour:
   canAttackWhileMove: 0
   moduleNames: []
   camp: 0
+  ownerPlayer: {fileID: 0}
   isAlive: 1
 --- !u!114 &930931426958042273
 MonoBehaviour:

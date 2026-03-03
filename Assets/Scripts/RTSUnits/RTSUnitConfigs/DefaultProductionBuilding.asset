@@ -18,5 +18,8 @@ MonoBehaviour:
   viewRange: 0
   alertRange: 0
   productTime: 30
+  fundCost: 2000
+  powerCost: 30
+  oreCost: 0
   type: 0
   prefab: {fileID: 1065042156843898265, guid: e97f3fe2a9243a44da5551b80e11db74, type: 3}

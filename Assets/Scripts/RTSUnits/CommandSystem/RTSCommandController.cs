@@ -14,7 +14,7 @@ public class RTSCommandController : MonoBehaviour
     private void Update()
     {
         // 左键下达移动命令
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Vector3? targetPos = GetGroundPosition();
             // 如果点击的位置有单位，那么选中单位，不进行移动

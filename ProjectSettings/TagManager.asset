@@ -6,6 +6,7 @@ TagManager:
   tags:
   - RTSControlableUnit
   - Ground
+  - SystemComponent
   layers:
   - Default
   - TransparentFX

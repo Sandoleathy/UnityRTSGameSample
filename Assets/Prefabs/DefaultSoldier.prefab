@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 5086342422203269319}
   m_Layer: 7
   m_Name: DefaultSoldier
-  m_TagString: RTSControlableUnit
+  m_TagString: Infantry
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

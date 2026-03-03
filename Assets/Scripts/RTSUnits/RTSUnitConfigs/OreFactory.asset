@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d53a38e383690c49b1fafee52dd066a, type: 3}
-  m_Name: MachineGunTurrent
+  m_Name: OreFactory
   m_EditorClassIdentifier: 
-  id: Machine-Gun-Turrent
-  unitName: "\u673A\u67AA\u5854"
+  id: Ore-Factory
+  unitName: "\u77FF\u77F3\u5DE5\u5382"
   canAttackWhileMove: 0
-  viewRange: 7
-  alertRange: 7
-  productTime: 15
-  fundCost: 500
-  powerCost: 0
-  oreCost: 0
+  viewRange: 6
+  alertRange: 0
+  productTime: 20
+  fundCost: 100
+  powerCost: 20
+  oreCost: 20
   type: 0
   prefab: {fileID: 0}
