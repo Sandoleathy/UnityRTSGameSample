@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 
-public class ProductionDebugPanel: MonoBehaviour
+public class UnitProductionDebugPanel: MonoBehaviour
 {
     public RTSUnit owner;
-    public ProductionModule productionModule;
+    public UnitProductionModule productionModule;
 
     [Header("Debug: All Unit Configs")]
     public List<RTSUnitConfig> allUnitConfigs;
@@ -16,7 +16,7 @@ public class ProductionDebugPanel: MonoBehaviour
     public void Open(RTSUnit unit)
     {
         owner = unit;
-        productionModule = owner.moduleContainer.Get<ProductionModule>();
+        productionModule = owner.moduleContainer.Get<UnitProductionModule>();
         isVisible = productionModule != null;
     }
 

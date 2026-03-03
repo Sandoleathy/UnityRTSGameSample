@@ -7,6 +7,10 @@ TagManager:
   - RTSControlableUnit
   - Ground
   - SystemComponent
+  - Building
+  - Vehicle
+  - Infantry
+  - Air
   layers:
   - Default
   - TransparentFX

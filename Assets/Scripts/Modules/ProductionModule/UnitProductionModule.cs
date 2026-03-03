@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Resources;
 using UnityEngine;
 
-public class ProductionModule : MonoBehaviour, IModule, IUpdatableModule
+public class UnitProductionModule : MonoBehaviour, IModule, IUpdatableModule
 {
     private RTSUnit owner;
     [SerializeField]

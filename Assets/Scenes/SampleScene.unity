@@ -805,9 +805,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8391222552659086748, guid: bd3863a5526277f4381f41ae55654012, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6733177361254619370, guid: bd3863a5526277f4381f41ae55654012, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -5568371526223589888, guid: bd3863a5526277f4381f41ae55654012, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: bd3863a5526277f4381f41ae55654012, type: 3}
       propertyPath: m_Name
       value: OreFactory
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bd3863a5526277f4381f41ae55654012, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bd3863a5526277f4381f41ae55654012, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513859187771203891, guid: bd3863a5526277f4381f41ae55654012, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700725330082129686, guid: bd3863a5526277f4381f41ae55654012, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -870,7 +898,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1204122315}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c67aae641e19e84e88b9b290cedd1d4, type: 3}
   m_Name: 
@@ -1367,6 +1395,10 @@ PrefabInstance:
     - target: {fileID: 2061049075328961804, guid: 6e88157608b5f7d418180de1cfff2631, type: 3}
       propertyPath: m_Name
       value: tankBody
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061049075328961804, guid: 6e88157608b5f7d418180de1cfff2631, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 5416587378513713187, guid: 6e88157608b5f7d418180de1cfff2631, type: 3}
       propertyPath: owner
