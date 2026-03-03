@@ -18,6 +18,7 @@ public class RTSUnit : MonoBehaviour
     
     [Header("阵营")]
     public int camp;
+    public Player ownerPlayer;
 
     [Header("当前属性")]
     public bool isAlive = true;
@@ -58,7 +59,7 @@ public class RTSUnit : MonoBehaviour
     private void ScanModules()
     {
         IModule[] modules = GetComponents<IModule>();
-        Debug.Log(modules.Length);
+        // Debug.Log(modules.Length);
         //先都进入容器，再初始化，防止出现NullReferenceException
         foreach(var module in modules)
         {
@@ -93,12 +94,6 @@ public class RTSUnit : MonoBehaviour
         ExecuteCommand();
 
         moduleContainer.Tick(Time.deltaTime);
-    }
-
-    private void AddModule(IModule module)
-    {
-        moduleContainer.Add(module);
-        module.Init(this);
     }
 
     /// <summary>

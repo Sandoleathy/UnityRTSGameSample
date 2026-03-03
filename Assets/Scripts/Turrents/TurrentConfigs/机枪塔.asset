@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fbcf564673b2f34cb9ba6dd0bfd7735, type: 3}
   m_Name: "\u673A\u67AA\u5854"
   m_EditorClassIdentifier: 
-  id: 
-  turrentName: 
-  maxRotateSpeed: 0
+  id: machine-gun-turrent
+  turrentName: "\u673A\u67AA\u5854"
+  maxRotateSpeed: 60
