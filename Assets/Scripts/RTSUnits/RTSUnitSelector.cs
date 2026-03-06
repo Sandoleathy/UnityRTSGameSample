@@ -13,7 +13,7 @@ public class RTSUnitSelector : MonoBehaviour
     private List<RTSUnit> selectedUnits = new List<RTSUnit>();
 
     // 生产单位调试菜单
-    public ProductionDebugPanel productionPanel;
+    public UnitProductionDebugPanel productionPanel;
 
     void Update()
     {
@@ -146,7 +146,7 @@ public class RTSUnitSelector : MonoBehaviour
             if (unit != null)
             {
                 // 调试面板
-                productionPanel = unit.GetComponent<ProductionDebugPanel>();
+                productionPanel = unit.GetComponent<UnitProductionDebugPanel>();
                 if(productionPanel != null)
                 {
                     productionPanel.Open(unit);
