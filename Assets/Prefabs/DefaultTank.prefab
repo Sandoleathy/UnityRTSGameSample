@@ -165,7 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 083845bb3db71c64ab80efac63fdfd2b, type: 3}
       propertyPath: m_TagString
-      value: RTSControlableUnit
+      value: Vehicle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -235,6 +235,7 @@ MonoBehaviour:
   canAttackWhileMove: 0
   moduleNames: []
   camp: 0
+  ownerPlayer: {fileID: 0}
   isAlive: 1
 --- !u!195 &8418014890014726181
 NavMeshAgent:
@@ -309,7 +310,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnable: 1
   weapons: []
-  turrents: []
+  turrents:
+  - {fileID: 1501218468683075448}
 --- !u!114 &1415576476142950163
 MonoBehaviour:
   m_ObjectHideFlags: 0

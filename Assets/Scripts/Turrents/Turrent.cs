@@ -32,7 +32,7 @@ public class Turrent : MonoBehaviour
         Vector3 directionToTarget = targetPosition - transform.position;
         directionToTarget.y = 0f; // 忽略y轴差异
         float angle = Vector3.Angle(transform.forward, directionToTarget);
-        Debug.Log($"{angle}");
+        // Debug.Log($"{angle}");
         return angle <= angleThreshold;
     }
 
@@ -40,7 +40,7 @@ public class Turrent : MonoBehaviour
     {
         if(IsAlignWithTarget(enemy.transform.position))
         {
-            Debug.Log($"对齐");
+            // Debug.Log($"对齐");
             if (weapon != null)
             {
                 return weapon.Attack(enemy);

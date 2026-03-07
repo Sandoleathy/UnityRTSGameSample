@@ -74,4 +74,8 @@ public class HealthModule : MonoBehaviour, IModule
         isEnable = true;
     }
     public bool IsEnable(){return isEnable;}
+    public void OnSelect()
+    {
+        
+    }
 }

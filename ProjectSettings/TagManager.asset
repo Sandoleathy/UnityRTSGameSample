@@ -6,6 +6,12 @@ TagManager:
   tags:
   - RTSControlableUnit
   - Ground
+  - SystemComponent
+  - Building
+  - Vehicle
+  - Infantry
+  - Air
+  - MainUI
   layers:
   - Default
   - TransparentFX

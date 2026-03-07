@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 5086342422203269319}
   m_Layer: 7
   m_Name: DefaultSoldier
-  m_TagString: RTSControlableUnit
+  m_TagString: Infantry
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -163,6 +163,7 @@ MonoBehaviour:
   canAttackWhileMove: 0
   moduleNames: []
   camp: 0
+  ownerPlayer: {fileID: 0}
   isAlive: 1
 --- !u!114 &6996422330892186189
 MonoBehaviour:
@@ -211,7 +212,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnable: 1
-  weapons: []
+  weapons:
+  - {fileID: 1962666346644487227}
   turrents: []
 --- !u!1001 &3232820638336410296
 PrefabInstance:

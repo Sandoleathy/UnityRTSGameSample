@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 20092245200579892}
   m_Layer: 7
   m_Name: "\u6218 \u4E89 \u5DE5 \u5382"
-  m_TagString: RTSControlableUnit
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -140,6 +140,7 @@ MonoBehaviour:
   canAttackWhileMove: 0
   moduleNames: []
   camp: 0
+  ownerPlayer: {fileID: 0}
   isAlive: 1
 --- !u!114 &6887722836118691744
 MonoBehaviour:
