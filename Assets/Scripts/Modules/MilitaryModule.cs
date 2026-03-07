@@ -60,7 +60,7 @@ public class MilitaryModule : MonoBehaviour , IModule, IUpdatableModule
     public void Tick(float dt)
     {
         if(!owner.isAlive) return;
-        
+
         RTSUnit enemy = null;
         // 检测敌人
         if(!isOpenFire){
@@ -96,4 +96,8 @@ public class MilitaryModule : MonoBehaviour , IModule, IUpdatableModule
         isEnable = true;
     }
     public bool IsEnable(){return isEnable;}
+    public void OnSelect()
+    {
+        
+    }
 }

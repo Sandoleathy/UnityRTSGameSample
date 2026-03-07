@@ -6,6 +6,7 @@ public interface IModule
     void Disable();
     void Enable();
     bool IsEnable();
+    void OnSelect();
 }
 
 public interface IUpdatableModule
