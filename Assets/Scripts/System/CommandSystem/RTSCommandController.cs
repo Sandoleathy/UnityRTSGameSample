@@ -3,12 +3,25 @@ using UnityEngine;
 
 public class RTSCommandController : MonoBehaviour
 {
+    public static RTSCommandController Instance;
     public LayerMask groundLayerMask; // 地面图层
-    private RTSUnitSelector selector;
+    private SelectionManager selector;
+    public LayerMask selectorLayer;
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     private void Start()
     {
-        selector = GetComponent<RTSUnitSelector>();
+        selector = SelectionManager.Instance;
     }
 
     private void Update()
@@ -18,7 +31,7 @@ public class RTSCommandController : MonoBehaviour
         {
             Vector3? targetPos = GetGroundPosition();
             // 如果点击的位置有单位，那么选中单位，不进行移动
-            if (targetPos.HasValue && !selector.IsClickingOnUnit(Input.mousePosition))
+            if (targetPos.HasValue && !IsClickingOnUnit(Input.mousePosition))
             {
                 IssueMoveCommand(targetPos.Value);
             }
@@ -65,5 +78,20 @@ public class RTSCommandController : MonoBehaviour
             unit.EnqueueCommand(moveCommand);
             // if(unit.navigationModule != null) unit.navigationModule.MoveTo(target);
         }
+    }
+
+    public bool IsClickingOnUnit(Vector3 mousePos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, selectorLayer))
+        {
+            RTSUnit unit = hit.collider.GetComponent<RTSUnit>();
+            if (unit != null)
+            {
+                // 选中单位
+                return true;   
+            }
+        }
+        return false;
     }
 }

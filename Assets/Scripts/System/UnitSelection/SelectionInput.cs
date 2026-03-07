@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class RTSUnitSelector : MonoBehaviour
+public class SelectionInput: MonoBehaviour
 {
     [Header("框选颜色")]
     public Color selectionBoxColor = new Color(0, 1, 0, 0.25f);
@@ -9,17 +11,14 @@ public class RTSUnitSelector : MonoBehaviour
 
     private Vector3 dragStartPos;
     private bool isDragging = false;
+    public UnityEvent<RTSUnit> SelectUnit;
+    public UnityEvent ClearSelectedUnits;
 
-    private List<RTSUnit> selectedUnits = new List<RTSUnit>();
-
-    // 生产单位调试菜单
-    public UnitProductionDebugPanel productionPanel;
-
+    private List<RTSUnit> currentSelectedUnits = new List<RTSUnit>();
     void Update()
     {
         HandleMouseInput();
     }
-
     private void HandleMouseInput()
     {
         // 鼠标按下左键
@@ -51,10 +50,9 @@ public class RTSUnitSelector : MonoBehaviour
         // 右键取消选中
         if (Input.GetMouseButtonDown(1))
         {
-            ClearSelection();
+            ClearSelectedUnits?.Invoke();
         }
     }
-
     private void HandleClick(Vector3 mousePos)
     {
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
@@ -66,67 +64,40 @@ public class RTSUnitSelector : MonoBehaviour
                 if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
                 {
                     // 清空之前选择
-                    ClearSelection();
+                    ClearSelectedUnits?.Invoke();
                 }
-                SelectUnit(unit);
+                SelectUnit?.Invoke(unit);
             }
-            //没有选中任何单位，此时点击左键若有已经选中的单位则执行移动操作
         }
-        // else
-        // {
-        //     if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
-        //         ClearSelection();
-        // }
     }
-
     private void HandleDragSelection(Vector3 start, Vector3 end)
     {
         // 左下和右上
         Vector3 min = Vector3.Min(start, end);
         Vector3 max = Vector3.Max(start, end);
 
-        if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
-            ClearSelection();
-
+        // 先清空之前的选择
+        if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift)) ClearSelectedUnits?.Invoke();
         // 检测场景中所有单位
-        RTSUnit[] allUnits = GameObject.FindObjectsOfType<RTSUnit>();
-        foreach (var unit in allUnits)
+        foreach (var unit in RTSUnit.allUnits)
         {
-            if (((1 << unit.gameObject.layer) & selectorLayer) == 0) continue; // 不在指定图层则跳过
-
             Vector3 screenPos = Camera.main.WorldToScreenPoint(unit.transform.position);
             if (screenPos.z < 0) continue; // 摄像机背面
             if (screenPos.x >= min.x && screenPos.x <= max.x &&
                 screenPos.y >= min.y && screenPos.y <= max.y)
             {
-                if(unit.tag != "Building") SelectUnit(unit);    // 框选时不选中建筑
+                if(unit.tag != "Building") currentSelectedUnits.Add(unit);    // 框选时不选中建筑
             }
         }
-    }
-
-    private void SelectUnit(RTSUnit unit)
-    {
-        if (!selectedUnits.Contains(unit))
+        if(currentSelectedUnits.Count > 0)
         {
-            selectedUnits.Add(unit);
-            unit.OnSelected();
+            foreach(var unit in currentSelectedUnits)
+            {
+                SelectUnit?.Invoke(unit);
+            }
         }
+        currentSelectedUnits.Clear();
     }
-
-    private void ClearSelection()
-    {
-        foreach (var unit in selectedUnits)
-        {
-            unit.DeSelected();
-        }
-        selectedUnits.Clear();
-    }
-
-    public List<RTSUnit> GetSelectedUnits()
-    {
-        return selectedUnits;
-    }
-
     // 在Scene视图显示框选矩形
     private void OnGUI()
     {
@@ -136,27 +107,6 @@ public class RTSUnitSelector : MonoBehaviour
             Utils.DrawScreenRect(rect, selectionBoxColor);
             Utils.DrawScreenRectBorder(rect, 2, Color.green);
         }
-    }
-    public bool IsClickingOnUnit(Vector3 mousePos)
-    {
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, selectorLayer))
-        {
-            RTSUnit unit = hit.collider.GetComponent<RTSUnit>();
-            if (unit != null)
-            {
-                // 调试面板
-                productionPanel = unit.GetComponent<UnitProductionDebugPanel>();
-                if(productionPanel != null)
-                {
-                    productionPanel.Open(unit);
-                }
-
-                // 选中单位
-                return true;   
-            }
-        }
-        return false;
     }
 }
 

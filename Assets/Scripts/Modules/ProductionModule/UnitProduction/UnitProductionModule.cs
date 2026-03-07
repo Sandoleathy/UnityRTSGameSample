@@ -117,4 +117,8 @@ public class UnitProductionModule : MonoBehaviour, IModule, IUpdatableModule
     {
         return isEnable;
     }
+    public void OnSelect()
+    {
+        
+    }
 }
