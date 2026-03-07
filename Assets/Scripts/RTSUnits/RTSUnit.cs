@@ -6,6 +6,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(OutlineObject))]
 public class RTSUnit : MonoBehaviour
 {
+    // 单例列表记录所有unit
+    public static List<RTSUnit> allUnits = new List<RTSUnit>();
     [Header("单位配置")]
     public RTSUnitConfig config;
     public string unitName;
@@ -28,7 +30,10 @@ public class RTSUnit : MonoBehaviour
     private OutlineObject outline;
 
 //--------------------------------------
-
+    void Awake()
+    {
+        allUnits.Add(this);
+    }
     void Start()
     {   
         // 初始化模块容器
@@ -109,6 +114,11 @@ public class RTSUnit : MonoBehaviour
         }
 
         outline.enabled = true;
+        
+        foreach(IModule module in moduleContainer.GetAllModules().Values)
+        {
+            module.OnSelect();
+        }
     }
 
     public void DeSelected()
@@ -118,5 +128,9 @@ public class RTSUnit : MonoBehaviour
         {
             outline.enabled = false;
         }
+    }
+    private void OnDestroy()
+    {
+        allUnits.Remove(this);
     }
 }

@@ -49,4 +49,8 @@ public class RTSUnitModuleContainer
             module.Tick(dt);
         }
     }
+    public Dictionary<Type,IModule> GetAllModules()
+    {
+        return modules;
+    }
 }
