@@ -185,7 +185,6 @@ GameObject:
   - component: {fileID: 347484922}
   - component: {fileID: 347484923}
   - component: {fileID: 347484924}
-  - component: {fileID: 347484925}
   m_Layer: 0
   m_Name: UILogic
   m_TagString: Untagged
@@ -237,19 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleResourceUI: {fileID: 347484923}
-  unitProductionModulePanel: {fileID: 347484925}
---- !u!114 &347484925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 347484921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d78d4d0229cc62a41a9e17a745a51eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  unitProductionModulePanel: {fileID: 706252563}
 --- !u!1001 &531499318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -564,6 +551,7 @@ GameObject:
   - component: {fileID: 706252560}
   - component: {fileID: 706252559}
   - component: {fileID: 706252558}
+  - component: {fileID: 706252563}
   m_Layer: 5
   m_Name: ProductionPanel
   m_TagString: MainUI
@@ -688,6 +676,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706252556}
   m_CullTransparentMesh: 1
+--- !u!114 &706252563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706252556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78d4d0229cc62a41a9e17a745a51eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonPrefab: {fileID: 2838344512995977774, guid: b9fe9189d80e855458af635f6030bd2c, type: 3}
 --- !u!1 &912340928
 GameObject:
   m_ObjectHideFlags: 0
@@ -2503,8 +2504,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7695155389926652407, guid: e97f3fe2a9243a44da5551b80e11db74, type: 3}
+      propertyPath: productableUnits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7695155389926652407, guid: e97f3fe2a9243a44da5551b80e11db74, type: 3}
+      propertyPath: productableUnits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 280b66e9f1ccac74688db9175d20c179, type: 2}
+    - target: {fileID: 7695155389926652407, guid: e97f3fe2a9243a44da5551b80e11db74, type: 3}
+      propertyPath: productableUnits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 57a931f2952f1104cac04b77508396d9, type: 2}
     m_RemovedComponents:
     - {fileID: 0}
+    - {fileID: 1990742120432536546, guid: e97f3fe2a9243a44da5551b80e11db74, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

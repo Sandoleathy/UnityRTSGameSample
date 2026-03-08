@@ -7,6 +7,7 @@ public class UnitProductionModule : MonoBehaviour, IModule, IUpdatableModule
     private RTSUnit owner;
     [SerializeField]
     private bool isEnable = true;
+    public List<RTSUnitConfig> productableUnits;
     private Queue<RTSUnitConfig> productQueue;
 
     private float tickCounter = 0f; //当前生产单位的倒计时计时器
@@ -121,4 +122,5 @@ public class UnitProductionModule : MonoBehaviour, IModule, IUpdatableModule
     {
         
     }
+    public List<RTSUnitConfig> GetProductableUnits(){ return productableUnits;}
 }
