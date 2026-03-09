@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu( menuName = "RTSUnit/RTSUnitConfig")]
@@ -10,10 +11,9 @@ public class RTSUnitConfig: ScriptableObject{
     public float viewRange;
     public float alertRange;
     [Header("生产信息")]
+    public List<BattleResourceStruct> StaticResourceCost = new List<BattleResourceStruct>();
+    public List<BattleResourceStruct> DynamicResourceCost = new List<BattleResourceStruct>();
     public float productTime;
-    public float fundCost;
-    public float powerCost;
-    public float oreCost;
     [Header("单位类型")]
     public RTSUnitType type;
     [Header("预制件")]
