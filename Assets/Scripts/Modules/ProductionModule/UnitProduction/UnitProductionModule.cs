@@ -7,6 +7,7 @@ public class UnitProductionModule : MonoBehaviour, IModule, IUpdatableModule
     private RTSUnit owner;
     [SerializeField]
     private bool isEnable = true;
+    public List<RTSUnitConfig> productableUnits;
     private Queue<RTSUnitConfig> productQueue;
 
     private float tickCounter = 0f; //当前生产单位的倒计时计时器
@@ -67,24 +68,25 @@ public class UnitProductionModule : MonoBehaviour, IModule, IUpdatableModule
     private bool ComputeResourceConsumeInTick(float dt, BattleResourceSystem battleResourceSystem)
     {
         float ConsumeFraction = dt / currentProducingUnit.productTime;
-        float fundConsume = currentProducingUnit.fundCost * ConsumeFraction;
-        float oreConsume = currentProducingUnit.oreCost * ConsumeFraction;
-
-        if(battleResourceSystem.funds >= fundConsume && battleResourceSystem.refinedOre >= oreConsume)
+        foreach(BattleResourceStruct r in currentProducingUnit.StaticResourceCost)
         {
-            battleResourceSystem.funds -= fundConsume;
-            battleResourceSystem.refinedOre -= oreConsume;
-        }
-        else
-        {
-            // 资源不足，暂停生产
-            if(!consoleMessageFlag)
+            if(r.amount <= 0) continue;
+            float consumeInTick = r.amount * ConsumeFraction;
+            if(battleResourceSystem.GetBattleResources()[r.resourceType].amount >= consumeInTick)
             {
-                Debug.Log($"[Production] 资源不足，暂停生产 {currentProducingUnit.unitName}");
-                consoleMessageFlag = true;
+                battleResourceSystem.ConsumeResource(r.resourceType, consumeInTick);
             }
-            // 应该通知系统资源不足
-            return false;
+            else
+            {
+                // 资源不足，暂停生产
+                if(!consoleMessageFlag)
+                {
+                    Debug.Log($"[Production] {r.resourceType}不足，暂停生产 {currentProducingUnit.unitName}");
+                    consoleMessageFlag = true;
+                }
+                // 应该通知系统资源不足
+                return false;
+            }
         }
         return true;
     }
@@ -121,4 +123,5 @@ public class UnitProductionModule : MonoBehaviour, IModule, IUpdatableModule
     {
         
     }
+    public List<RTSUnitConfig> GetProductableUnits(){ return productableUnits;}
 }

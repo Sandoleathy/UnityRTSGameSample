@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SystemConsolePanel : MonoBehaviour
@@ -6,15 +7,17 @@ public class SystemConsolePanel : MonoBehaviour
 
     private GameManager gameManager;
     private Player selectedPlayer;
-
-    private string fundInput = "";
-    private string oreInput = "";
+    private Dictionary<BattleResourceTypes, string> resourceInputMap = new Dictionary<BattleResourceTypes, string>();
 
     private Rect windowRect = new Rect(100, 100, 420, 450);
 
     void Start()
     {
         gameManager = FindAnyObjectByType<GameManager>();
+        foreach (BattleResourceTypes type in System.Enum.GetValues(typeof(BattleResourceTypes)))
+        {
+            resourceInputMap[type] = "";
+        }
     }
 
     void Update()
@@ -54,8 +57,7 @@ public class SystemConsolePanel : MonoBehaviour
                 else
                 {
                     selectedPlayer = player;
-                    fundInput = player.battleResourceSystem.funds.ToString();
-                    oreInput = player.battleResourceSystem.refinedOre.ToString();
+                    GetPlayerResourceInfo();
                 }
             }
         }
@@ -73,59 +75,35 @@ public class SystemConsolePanel : MonoBehaviour
 
     private void ResourceDebugPanel(Player player)
     {
-        var resource = player.battleResourceSystem;
+        var resourceSys = player.battleResourceSystem;
 
-        // -------- 资金 --------
-        GUILayout.BeginHorizontal();
-
-        GUILayout.Label($"资金：{resource.funds}");
-
-        fundInput = GUILayout.TextField(fundInput, GUILayout.Width(100));
-
-        bool fundChanged = fundInput != resource.funds.ToString();
-
-        Color oldColor = GUI.backgroundColor;
-        if (fundChanged)
-            GUI.backgroundColor = Color.green;
-
-        if (GUILayout.Button("设置", GUILayout.Width(60)))
+        foreach (var r in resourceSys.GetBattleResources())
         {
-            if (float.TryParse(fundInput, out float newFunds))
+            GUILayout.BeginHorizontal();
+            GUILayout.Label($"{r.Key}");
+            resourceInputMap[r.Key] = GUILayout.TextField(resourceInputMap[r.Key], GUILayout.Width(100));
+            bool changed = resourceInputMap[r.Key] != r.Value.amount.ToString();
+            Color oldColor = GUI.backgroundColor;
+            if (changed) GUI.backgroundColor = Color.green;
+            if (GUILayout.Button("设置", GUILayout.Width(60)))
             {
-                resource.funds = newFunds;
+                if (float.TryParse(resourceInputMap[r.Key], out float newAmount))
+                {
+                    resourceSys.SetBattleResource(r.Key, newAmount);
+                }
             }
+            GUI.backgroundColor = oldColor;
+            GUILayout.EndHorizontal();
+            GUILayout.Space(10);
         }
-
-        GUI.backgroundColor = oldColor;
-
-        GUILayout.EndHorizontal();
-
-        // -------- 精炼矿石 --------
-        GUILayout.BeginHorizontal();
-
-        GUILayout.Label($"精炼矿石：{resource.refinedOre}");
-
-        oreInput = GUILayout.TextField(oreInput, GUILayout.Width(100));
-
-        bool oreChanged = oreInput != resource.refinedOre.ToString();
-
-        oldColor = GUI.backgroundColor;
-        if (oreChanged)
-            GUI.backgroundColor = Color.green;
-
-        if (GUILayout.Button("设置", GUILayout.Width(60)))
+    }
+    private void GetPlayerResourceInfo()
+    {
+        if(selectedPlayer == null) return;
+        BattleResourceSystem resourceSys = selectedPlayer.battleResourceSystem;
+        foreach(var r in resourceSys.GetBattleResources())
         {
-            if (float.TryParse(oreInput, out float newOre))
-            {
-                resource.refinedOre = newOre;
-            }
+            resourceInputMap[r.Key] = r.Value.amount.ToString();
         }
-
-        GUI.backgroundColor = oldColor;
-
-        GUILayout.EndHorizontal();
-
-        GUILayout.Space(10);
-        GUILayout.Label($"电力负载: {resource.powerload}");
     }
 }

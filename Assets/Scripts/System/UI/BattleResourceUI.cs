@@ -10,8 +10,8 @@ public class BattleResourceUI : MonoBehaviour
 
     void Update()
     {
-        fundNum.SetText(player.battleResourceSystem.funds.ToString());
-        oreNum.SetText(player.battleResourceSystem.refinedOre.ToString());
+        fundNum.SetText(player.battleResourceSystem.GetBattleResources()[BattleResourceTypes.Funds].amount.ToString());
+        oreNum.SetText(player.battleResourceSystem.GetBattleResources()[BattleResourceTypes.RefinedOre].amount.ToString());
         powerNum.SetText($"{player.battleResourceSystem.powerGeneration}/{player.battleResourceSystem.powerload}");
     }
 }

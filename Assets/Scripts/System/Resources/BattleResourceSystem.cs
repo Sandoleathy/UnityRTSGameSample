@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class BattleResourceSystem
 {
     public Player owner;
@@ -7,19 +9,41 @@ public class BattleResourceSystem
     public float powerGeneration;
     public float powerload;
     public float refinedOre;
+    public Dictionary<BattleResourceTypes, BattleResource> battleResources;
 
-    public BattleResourceSystem(Player owner)
+    public BattleResourceSystem(Player owner, Dictionary<BattleResourceTypes, BattleResource> battleResources)
     {
         this.owner = owner;
+        this.battleResources = battleResources;
     }
-    public BattleResourceSystem(Player owner, float funds, int population, int populationLimit, float powerGeneration, float powerload, float refinedOre)
+    public void ConsumeResource(BattleResourceTypes resourceType, float value)
     {
-        this.owner = owner;
-        this.funds = funds;
-        this.population = population;
-        this.populationLimit = populationLimit;
-        this.powerGeneration = powerGeneration;
-        this.powerload = powerload;
-        this.refinedOre = refinedOre;
+        battleResources[resourceType].amount -= value;
+    }
+    public void GainResource(BattleResourceTypes resourceType, float value)
+    {
+        battleResources[resourceType].amount += value;
+    }
+    public Dictionary<BattleResourceTypes, BattleResource> GetBattleResources()
+    {
+        return battleResources;
+    }
+    public void SetBattleResource(BattleResourceTypes resourceType, float value)
+    {
+        battleResources[resourceType].amount = value;
+    }
+}
+
+public class BattleResource
+{
+    public BattleResourceTypes resourceType;
+    public float amount;
+    public float limit;
+
+    public BattleResource(BattleResourceTypes resourceType, float amount, float limit)
+    {
+        this.resourceType = resourceType;
+        this.amount = amount;
+        this.limit = limit;
     }
 }
