@@ -75,6 +75,7 @@ public class RTSCommandController : MonoBehaviour
 
         foreach (RTSUnit unit in selectedUnits)
         {
+            if(unit.moduleContainer.Get<NavigationModule>() == null) continue;
             unit.EnqueueCommand(moveCommand);
             // if(unit.navigationModule != null) unit.navigationModule.MoveTo(target);
         }
